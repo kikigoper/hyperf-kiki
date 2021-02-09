@@ -11,17 +11,32 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Manager\HttpClient\GuzzleHttp;
+use Hyperf\HttpServer\Annotation\AutoController;
+
+/**
+ * @AutoController()
+ */
 class IndexController extends AbstractController
 {
     public function index()
     {
-        $user = $this->request->input('user', 'Hyperf');
-        $method = $this->request->getMethod();
+//        $user = $this->request->input('foo', 'Hyperf');
+//        echo $user;
+//        $method = $this->request->getMethod();
+//        $model  = new GuzzleHttp();
+//        $data = $model->getJson('http://127.0.0.1:9701/index2/index',['foo' => 'get数据']);
+//        $user = $this->request->input('foo', 'Hyperf');
+//        echo $user;
+//        $method = $this->request->getMethod();
+//        $model  = new GuzzleHttp();
+//        http://127.0.0.1:9701/index2/index
+        $data = 1;
 
         return [
-            'method' => $method,
-            'message' => "Hello {$user}.",
-            'data' => "333",
+//            'method' => $method,
+//            'message' => "Hello {$user}.",
+            'data' => $data,
         ];
     }
 }
