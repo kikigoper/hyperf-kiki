@@ -59,7 +59,7 @@ return [
         'api_prefix' => env('ADMIN_ROUTE_API_PREFIX', '/'),  # 默认API地址
         'home' => env('ADMIN_ROUTE_HOME_URL', '/auth/main'),              # 默认后台首页
         'namespace' => 'App\\Admin\\Controllers',
-        'middleware' => [AuthMiddleware::class, HPlus\Permission\Middleware\PermissionMiddleware::class], #默认权限处理器
+        'middleware' => [AuthMiddleware::class, HPlus\Permission\Middleware\PermissionMiddleware::class,\HPlus\Admin\Middleware\LogsMiddleware::class], #默认权限处理器
     ],
     'directory' => '',
     'https' => env('ADMIN_HTTPS', false),
