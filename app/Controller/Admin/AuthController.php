@@ -339,6 +339,7 @@ class AuthController
 
     protected function getCookieName()
     {
-        return 'HPLUSSESSIONID';
+//        return 'HPLUSSESSIONID';
+        return 'gfdyk';
     }
 }
