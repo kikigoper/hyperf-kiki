@@ -32,4 +32,9 @@ class Zq extends Model
      * @var array
      */
     protected $casts = ['id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function test()
+    {
+        return 666;
+    }
 }
