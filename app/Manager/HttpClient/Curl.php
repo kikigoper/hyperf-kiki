@@ -1,6 +1,7 @@
 <?php
 /**
  * 协程实现Curl效果，使用swoole的http-client
+ * 已弃用
  */
 
 namespace App\Manager\HttpClient;
