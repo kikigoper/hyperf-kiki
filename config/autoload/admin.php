@@ -37,7 +37,7 @@ return [
     //登录框默认用户
     'auto_user' => [
         'username' => 'admin',
-        'password' => 'admin',
+        'password' => '1',
     ],
     //底部菜单
     'footerLinks' => [
