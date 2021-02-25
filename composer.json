@@ -32,6 +32,7 @@
         "hyperf/scout": "^2.1"
     },
     "require-dev": {
+        "filp/whoops": "^2.9",
         "friendsofphp/php-cs-fixer": "^2.14",
         "hyperf-plus/devtool": "^1.0",
         "hyperf/devtool": "~2.1.0",
