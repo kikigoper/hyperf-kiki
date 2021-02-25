@@ -19,7 +19,7 @@ use Hyperf\HttpServer\Annotation\AutoController;
 /**
  * @AutoController()
  */
-class Index2Controller
+class Index3Controller
 {
     public function index()
     {
@@ -30,7 +30,7 @@ class Index2Controller
         $data = Zq::query()->get();
         return [
 //            'method' => $method,
-            'message' => 'index2',
+            'message' => 'index3',
 //            'message_full' => $this->request->fullUrl(),
             'dd' => 1,
             'hello'=>$data
