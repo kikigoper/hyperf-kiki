@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Manager\HttpClient\GuzzleHttp;
+use App\Service\DemoService;
 use Hyperf\HttpServer\Annotation\AutoController;
 use \App\Model\User;
 use Hyperf\Cache\Annotation\Cacheable;
@@ -36,19 +37,11 @@ class IndexController extends AbstractController
         ];
     }
 
-    //缓存(删)
-    /**
-     * @CacheEvict(prefix="user")
-     */
-//    public function index()
-//    {
-////        $user = User::query()->where('id',2)->first();
-//
-//        return true;
-////        return [
-////            'user' => $user->toArray(),
-////        ];
-//    }
+    public function index()
+    {
+//        $model = new DemoService();
+//        $model->method();
+    }
 
     /**
      * @CachePut(prefix="user", ttl=3601)
