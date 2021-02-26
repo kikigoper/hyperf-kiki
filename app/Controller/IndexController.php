@@ -44,9 +44,11 @@ class IndexController extends AbstractController
         ];
     }
 
+    //国际化
     public function index()
     {
-        $this->demoService->method();
+//        $this->demoService->method();
+        return trans('messages.welcome');
     }
 
     /**
