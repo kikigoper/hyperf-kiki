@@ -19,6 +19,9 @@ use \App\Model\User;
 use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Cache\Annotation\CacheEvict;
 use Hyperf\Cache\Annotation\CachePut;
+use App\Request\FooRequest;
+use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 
 /**
  * @AutoController()
@@ -31,9 +34,43 @@ class IndexController extends AbstractController
      */
     public $demoService;
 
-    public function index()
+    /**
+     * @Inject()
+     * @var ValidatorFactoryInterface
+     */
+    protected $validationFactory;
+
+//    public function index(FooRequest $request)
+//    {
+//        $validated = $request->validated();
+//        return $validated;
+//    }
+
+    // 验证器
+    public function index(RequestInterface $request)
     {
-        return trans('messages.welcome');
+        $post = [
+            'foo' => 66,
+            'bar' => ''
+        ];
+        $validator = $this->validationFactory->make(
+            $post,
+            [
+                'foo' => 'required|min:15',
+                'bar' => 'required',
+            ],
+            [
+                'foo.required' => 'foo is required',
+                'foo.max' => '最小15',
+                'bar.required' => 'bar is required',
+            ]
+        );
+
+        if ($validator->fails()){
+            // Handle exception
+            $errorMessage = $validator->errors()->first();
+            return $errorMessage;
+        }
     }
 
     //缓存(增加)
