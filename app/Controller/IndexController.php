@@ -42,9 +42,12 @@ class IndexController extends AbstractController
      */
     protected $validationFactory;
 
+    //模型缓存
     public function index()
     {
-
+        $model = Zq::findFromCache(1);
+        return $model;
+//        Zq::query(true)->where('id', 1)->delete();
     }
 
     //关联

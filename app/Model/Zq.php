@@ -4,6 +4,8 @@ declare (strict_types=1);
 namespace App\Model;
 
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\ModelCache\Cacheable;
+use Hyperf\ModelCache\CacheableInterface;
 /**
  * @property int $id 
  * @property \Carbon\Carbon $created_at 
@@ -12,8 +14,14 @@ use Hyperf\DbConnection\Model\Model;
  * @property string $phone 
  * @property string $username 
  */
-class Zq extends Model
+class Zq extends Model implements CacheableInterface
 {
+
+    /**
+     * 模型缓存
+     */
+    use Cacheable;
+
     /**
      * The table associated with the model.
      *
