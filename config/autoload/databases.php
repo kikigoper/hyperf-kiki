@@ -28,12 +28,21 @@ return [
             'heartbeat' => -1,
             'max_idle_time' => (float) env('DB_MAX_IDLE_TIME', 60),
         ],
-        'commands' => [
+        'commands' => [ // 命令行
             'gen:model' => [
                 'path' => 'app/Model',
                 'force_casts' => true,
                 'inheritance' => 'Model',
             ],
         ],
+        'cache' => [ // 模型缓存
+            'handler' => \Hyperf\ModelCache\Handler\RedisHandler::class,
+            'cache_key' => 'mc:%s:m:%s:%s:%s',
+            'prefix' => 'default',
+            'ttl' => 3600 * 24,
+            'empty_model_ttl' => 3600,
+            'load_script' => true,
+            'use_default_value' => false,
+        ]
     ],
 ];
