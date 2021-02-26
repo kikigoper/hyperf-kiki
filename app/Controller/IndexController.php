@@ -13,6 +13,7 @@ namespace App\Controller;
 
 use App\Manager\HttpClient\GuzzleHttp;
 use App\Service\DemoService;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\AutoController;
 use \App\Model\User;
 use Hyperf\Cache\Annotation\Cacheable;
@@ -24,6 +25,12 @@ use Hyperf\Cache\Annotation\CachePut;
  */
 class IndexController extends AbstractController
 {
+    /**
+     * @Inject
+     * @var DemoService
+     */
+    public $demoService;
+
     //缓存(增加)
     /**
      * @Cacheable(prefix="user", ttl=7200, listener="USER_CACHE")
@@ -39,8 +46,7 @@ class IndexController extends AbstractController
 
     public function index()
     {
-//        $model = new DemoService();
-//        $model->method();
+        $this->demoService->method();
     }
 
     /**
