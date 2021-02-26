@@ -31,6 +31,11 @@ class IndexController extends AbstractController
      */
     public $demoService;
 
+    public function index()
+    {
+        return trans('messages.welcome');
+    }
+
     //缓存(增加)
     /**
      * @Cacheable(prefix="user", ttl=7200, listener="USER_CACHE")
@@ -45,11 +50,11 @@ class IndexController extends AbstractController
     }
 
     //国际化
-    public function index()
-    {
-//        $this->demoService->method();
-        return trans('messages.welcome');
-    }
+//    public function index()
+//    {
+////        $this->demoService->method();
+//        return trans('messages.welcome');
+//    }
 
     /**
      * @CachePut(prefix="user", ttl=3601)

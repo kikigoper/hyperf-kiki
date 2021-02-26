@@ -6,5 +6,5 @@
  */
 
 return [
-    '欢迎' => '66',
+    'welcome' => 'welcome',
 ];

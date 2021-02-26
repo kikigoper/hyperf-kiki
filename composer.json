@@ -31,7 +31,8 @@
         "hyperf/process": "~2.1.0",
         "hyperf/redis": "~2.1.0",
         "hyperf/scout": "^2.1",
-        "hyperf/translation": "^2.1"
+        "hyperf/translation": "^2.1",
+        "hyperf/validation": "^2.1"
     },
     "require-dev": {
         "filp/whoops": "^2.9",

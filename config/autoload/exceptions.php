@@ -12,9 +12,10 @@ declare(strict_types=1);
 return [
     'handler' => [
         'http' => [
-            \HPlus\Admin\Exception\Handler\AppExceptionHandler::class, #放到第一位
+            HPlus\Admin\Exception\Handler\AppExceptionHandler::class, #放到第一位
             Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler::class,
             App\Exception\Handler\AppExceptionHandler::class,
+            Hyperf\Validation\ValidationExceptionHandler::class, // 验证器
         ],
     ],
 ];
