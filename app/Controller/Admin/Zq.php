@@ -20,7 +20,7 @@ use HPlus\UI\Form;
 use HPlus\UI\Grid;
 
 /**
- * @AdminController(prefix="zq", tag="", ignore=true))
+ * @AdminController(prefix="zq", tag="钟琪测试", ignore=true))
  */
 class Zq extends AbstractAdminController
 {
