@@ -33,8 +33,13 @@ class Zq extends Model
      */
     protected $casts = ['id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 
-    public function test()
+    public function user()
     {
-        return 666;
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'id', 'user_id');
     }
 }

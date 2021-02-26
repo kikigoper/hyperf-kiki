@@ -9,9 +9,11 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Controller;
 
 use App\Manager\HttpClient\GuzzleHttp;
+use App\Model\Zq;
 use App\Service\DemoService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\AutoController;
@@ -40,20 +42,33 @@ class IndexController extends AbstractController
      */
     protected $validationFactory;
 
+    public function index()
+    {
+
+    }
+
+    //关联
+//    public function index()
+//    {
+//        $user = Zq::query()->with('user')->get();;
+//        return $user;
+//    }
+
 //    public function index(FooRequest $request)
 //    {
 //        $validated = $request->validated();
 //        return $validated;
 //    }
 
+
     // 验证器
-    public function index()
-    {
-        try {
-           throw new \Exception('hahh',666);
-        } catch (\Throwable $e) {
-           return ['a'=>$e->getMessage()];
-        }
+//    public function index()
+//    {
+//        try {
+//           throw new \Exception('hahh',666);
+//        } catch (\Throwable $e) {
+//           return ['a'=>$e->getMessage()];
+//        }
 //        $post = [
 //            'foo' => 66,
 //            'bar' => ''
@@ -76,7 +91,7 @@ class IndexController extends AbstractController
 //            $errorMessage = $validator->errors()->first();
 //            return $errorMessage;
 //        }
-    }
+//    }
 
     //缓存(增加)
     /**
@@ -84,7 +99,7 @@ class IndexController extends AbstractController
      */
     public function search()
     {
-        $user = User::query()->where('id',2)->first();
+        $user = User::query()->where('id', 2)->first();
 
         return [
             'user' => $user->toArray(),
@@ -103,7 +118,7 @@ class IndexController extends AbstractController
      */
     public function update()
     {
-        $user = User::query()->where('id',2)->first();
+        $user = User::query()->where('id', 2)->first();
         $user->name = 'HyperfDoc';
         $user->save();
 
