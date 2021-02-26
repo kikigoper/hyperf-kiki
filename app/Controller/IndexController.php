@@ -47,30 +47,35 @@ class IndexController extends AbstractController
 //    }
 
     // 验证器
-    public function index(RequestInterface $request)
+    public function index()
     {
-        $post = [
-            'foo' => 66,
-            'bar' => ''
-        ];
-        $validator = $this->validationFactory->make(
-            $post,
-            [
-                'foo' => 'required|min:15',
-                'bar' => 'required',
-            ],
-            [
-                'foo.required' => 'foo is required',
-                'foo.max' => '最小15',
-                'bar.required' => 'bar is required',
-            ]
-        );
-
-        if ($validator->fails()){
-            // Handle exception
-            $errorMessage = $validator->errors()->first();
-            return $errorMessage;
+        try {
+           throw new \Exception('hahh',666);
+        } catch (\Throwable $e) {
+           return ['a'=>$e->getMessage()];
         }
+//        $post = [
+//            'foo' => 66,
+//            'bar' => ''
+//        ];
+//        $validator = $this->validationFactory->make(
+//            $post,
+//            [
+//                'foo' => 'required|min:15',
+//                'bar' => 'required',
+//            ],
+//            [
+//                'foo.required' => 'foo is required',
+//                'foo.max' => '最小15',
+//                'bar.required' => 'bar is required',
+//            ]
+//        );
+//
+//        if ($validator->fails()){
+//            // Handle exception
+//            $errorMessage = $validator->errors()->first();
+//            return $errorMessage;
+//        }
     }
 
     //缓存(增加)
