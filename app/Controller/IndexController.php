@@ -45,7 +45,7 @@ class IndexController extends AbstractController
     //模型缓存
     public function index()
     {
-        $model = Zq::findFromCache(1);
+        $model = Zq::findFromCache(2);
         return $model;
 //        Zq::query(true)->where('id', 1)->delete();
     }
