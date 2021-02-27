@@ -42,13 +42,41 @@ class IndexController extends AbstractController
      */
     protected $validationFactory;
 
-    //模型缓存
+
     public function index()
     {
-        $model = Zq::findFromCache(2);
-        return $model;
-//        Zq::query(true)->where('id', 1)->delete();
+        
     }
+
+    /**
+     * 模型es
+     */
+//    public function index()
+//    {
+//        try {
+////            $order = new Zq();
+//            $order = Zq::find(13);
+////            $order->id  = 13;
+////            $order->user_id  = 1;
+////            $order->created_at  = 1;
+////            $order->updated_at  = 1;
+////            $order->phone  = 1;
+////            $order->name  = '钟琪3';
+////            $order->save();
+//            $order->delete();
+//        } catch (\Throwable $e) {
+//           return $e->getMessage();
+//        }
+//
+//    }
+    //模型缓存
+//    public function index()
+//    {
+//        $model = Zq::findFromCache(2);
+//        return $model;
+////        Zq::query(true)->where('id', 1)->delete();
+//    }
+
 
     //关联
 //    public function index()

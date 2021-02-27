@@ -6,6 +6,8 @@ namespace App\Model;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\ModelCache\Cacheable;
 use Hyperf\ModelCache\CacheableInterface;
+use Hyperf\Scout\Searchable;
+
 /**
  * @property int $id 
  * @property \Carbon\Carbon $created_at 
@@ -14,13 +16,33 @@ use Hyperf\ModelCache\CacheableInterface;
  * @property string $phone 
  * @property string $username 
  */
-class Zq extends Model implements CacheableInterface
+//class Zq extends Model implements CacheableInterface
+class Zq extends Model
 {
 
     /**
      * 模型缓存
      */
-    use Cacheable;
+//    use Cacheable;
+
+    /**
+     * es索引
+     */
+    use Searchable;
+
+    public function searchableAs()
+    {
+        return 'item_product';
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        // Customize array...
+
+        return $array;
+    }
 
     /**
      * The table associated with the model.
@@ -28,6 +50,8 @@ class Zq extends Model implements CacheableInterface
      * @var string
      */
     protected $table = 'zq';
+
+    public $timestamps = false; // 默认created_at 和 updated_at
     /**
      * The attributes that are mass assignable.
      *
@@ -39,15 +63,15 @@ class Zq extends Model implements CacheableInterface
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'created_at' => 'int', 'updated_at' => 'int'];
 
-    public function user()
-    {
-        return $this->hasOne(User::class, 'id', 'user_id');
-    }
-
-    public function users()
-    {
-        return $this->hasMany(User::class, 'id', 'user_id');
-    }
+//    public function user()
+//    {
+//        return $this->hasOne(User::class, 'id', 'user_id');
+//    }
+//
+//    public function users()
+//    {
+//        return $this->hasMany(User::class, 'id', 'user_id');
+//    }
 }
