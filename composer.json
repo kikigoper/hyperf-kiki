@@ -16,6 +16,7 @@
         "hyperf-plus/admin": "~2.2",
         "hyperf-plus/permission": "^1.0",
         "hyperf-plus/swagger": "^1.0",
+        "hyperf/amqp": "^2.1",
         "hyperf/cache": "~2.1.0",
         "hyperf/command": "~2.1.0",
         "hyperf/config": "~2.1.0",

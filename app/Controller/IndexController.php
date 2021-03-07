@@ -45,7 +45,7 @@ class IndexController extends AbstractController
 
     public function index()
     {
-
+        return 666789;
     }
 
     /**
