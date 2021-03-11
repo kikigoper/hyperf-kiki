@@ -32,7 +32,9 @@ return [
             'gen:model' => [
                 'path' => 'app/Model',
                 'force_casts' => true,
-                'inheritance' => 'Model',
+                'inheritance' => 'BaseModel',
+                'refresh_fillable' => true,
+                'with_comments' => true,
             ],
         ],
         'cache' => [ // 模型缓存

@@ -6,12 +6,9 @@ namespace App\Model;
 use Hyperf\DbConnection\Model\Model;
 
 /**
- * @property int $id 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property string $name 
- * @property string $phone 
- * @property string $username 
+ * 模型基类
+ * Class BaseModel
+ * @package App\Model
  */
 class BaseModel extends Model
 {
@@ -27,4 +24,22 @@ class BaseModel extends Model
         return self::query()->whereIn($field,$value)->get();
     }
 
+    public function saveInfo($data)
+    {
+        return self::create($data);
+    }
+
+    public function updateInfo($field,$value,$data)
+    {
+        return self::query()->where($field, $value)->update($data);
+    }
+
+    public function deleteInfo($field,$value)
+    {
+        if (is_array($field)) {
+            return self::query()->whereIn($field, $value)->delete();
+        } else {
+            return self::query()->where($field,$value)->delete();
+        }
+    }
 }
