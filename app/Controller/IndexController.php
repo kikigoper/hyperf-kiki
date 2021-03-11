@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Common\Tool\Ip;
 use App\Manager\HttpClient\GuzzleHttp;
 use App\Model\Zq;
 use App\Service\DemoService;
@@ -45,7 +46,10 @@ class IndexController extends AbstractController
 
     public function index()
     {
-        return 666789;
+//        $user = Zq::query()->get();
+//        return $user;
+//        return (new Ip())->getClientIp();
+        return Zq::listInfo('id',[1,2]);
     }
 
     /**

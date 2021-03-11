@@ -13,20 +13,21 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Model\Zq as ModelZq;
+use App\Model\Zq;
 use HPlus\Admin\Controller\AbstractAdminController;
 use HPlus\Route\Annotation\AdminController;
 use HPlus\UI\Form;
 use HPlus\UI\Grid;
 
 /**
- * @AdminController(prefix="zq", tag="钟琪测试", ignore=true))
+ * @AdminController(prefix="zq", tag="", ignore=true))
  */
-class Zq extends AbstractAdminController
+class ZqController extends AbstractAdminController
 {
 	protected function grid()
 	{
-		$grid = new Grid(new ModelZq);
+		$grid = new Grid(new Zq);
+		$grid->dialogForm($this->form()->isDialog(),'700px',['创建标题','编辑标题']);
 		//$grid->hidePage(); 隐藏分页
 		//$grid->hideActions(); 隐藏操作
 		$grid->className('m-15');
@@ -43,7 +44,7 @@ class Zq extends AbstractAdminController
 
 	protected function form($isEdit = false)
 	{
-		$form = new Form(new ModelZq);
+		$form = new Form(new Zq);
 		$form->className('m-15');
 		$form->setEdit($isEdit);
 		$form->item('id', '');

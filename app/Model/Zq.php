@@ -7,51 +7,43 @@ use Hyperf\DbConnection\Model\Model;
 use Hyperf\ModelCache\Cacheable;
 use Hyperf\ModelCache\CacheableInterface;
 use Hyperf\Scout\Searchable;
-
 /**
  * @property int $id 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
+ * @property int $created_at 
+ * @property int $updated_at 
  * @property string $name 
  * @property string $phone 
  * @property string $username 
  */
 //class Zq extends Model implements CacheableInterface
-class Zq extends Model
+class Zq extends BaseModel
 {
-
     /**
      * 模型缓存
      */
-//    use Cacheable;
-
+    //    use Cacheable;
     /**
      * es索引
      */
-    use Searchable;
-
+    //    use Searchable;
     public function searchableAs()
     {
         return 'item_product';
     }
-
     public function toSearchableArray()
     {
         $array = $this->toArray();
-
         // Customize array...
-
         return $array;
     }
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'zq';
-
-    public $timestamps = false; // 默认created_at 和 updated_at
+    public $timestamps = false;
+    // 默认created_at 和 updated_at
     /**
      * The attributes that are mass assignable.
      *
@@ -63,15 +55,14 @@ class Zq extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'created_at' => 'int', 'updated_at' => 'int'];
-
-//    public function user()
-//    {
-//        return $this->hasOne(User::class, 'id', 'user_id');
-//    }
-//
-//    public function users()
-//    {
-//        return $this->hasMany(User::class, 'id', 'user_id');
-//    }
+    protected $casts = ['id' => 'integer', 'created_at' => 'integer', 'updated_at' => 'integer'];
+    //    public function user()
+    //    {
+    //        return $this->hasOne(User::class, 'id', 'user_id');
+    //    }
+    //
+    //    public function users()
+    //    {
+    //        return $this->hasMany(User::class, 'id', 'user_id');
+    //    }
 }
