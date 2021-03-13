@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Service\AdminLoginLogService;
 use HPlus\Admin\Exception\ValidateException;
 use HPlus\Admin\Facades\Admin;
 use HPlus\Admin\Model\Admin\Administrator;
@@ -39,6 +40,7 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Utils\Arr;
 use Qbhy\HyperfAuth\AuthManager;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * @ApiController(prefix="auth", tag="入口文件")
@@ -59,6 +61,12 @@ class AuthController
      * @var AuthManager
      */
     protected $auth;
+
+    /**
+     * @Inject
+     * @var AdminLoginLogService
+     */
+    public $adminLoginLogService;
 
     public function __construct(AuthManager $auth, ContainerInterface $container, RequestInterface $request, ResponseInterface $response)
     {
@@ -314,6 +322,7 @@ class AuthController
             throw new ValidateException(400, '用户名或密码不正确');
         }
         $token = $this->auth->login($user);
+        $this->adminLoginLogService->saveInfo($user->id,$user->username); // 登录日志记录
         $data = [];
         $data['message'] = '登录成功';
         $data['status'] = 200;

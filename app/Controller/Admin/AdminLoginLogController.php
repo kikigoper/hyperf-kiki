@@ -27,6 +27,13 @@ class AdminLoginLogController extends AbstractAdminController
 	protected function grid()
 	{
 		$grid = new Grid(new AdminLoginLog);
+        $grid->toolbars(function (Grid\Toolbars $toolbars) {
+            $toolbars->hideCreateButton(); // 隐藏创建按钮
+        });
+        $grid->actions(function (Grid\Actions $actions) { // 隐藏修改与显示按钮
+            $actions->hideEditAction();
+            $actions->hideDeleteAction();
+        });
 		$grid->dialogForm($this->form()->isDialog(),'700px',['创建标题','编辑标题']);
 		//$grid->hidePage(); 隐藏分页
 		//$grid->hideActions(); 隐藏操作

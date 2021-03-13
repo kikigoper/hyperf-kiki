@@ -6,6 +6,7 @@ namespace App\Model;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Events\Updating;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * 模型基类
@@ -20,7 +21,6 @@ class BaseModel extends Model
 
     /**
      * 增加时回调($fillable参数要设置值并且timestamps为true)
-     * @Interface saving
      * @param Saving $event
      */
     public function creating(Creating $event)
@@ -33,7 +33,6 @@ class BaseModel extends Model
 
     /**
      * 更新时回调($fillable参数要设置值并且timestamps为true)
-     * @Interface updating
      * @param Updating $event
      */
     public function updating(Updating $event)
@@ -45,7 +44,6 @@ class BaseModel extends Model
 
     /**
      * 显示增加时间
-     * @Interface getCreatedAtAttribute
      * @param $value
      * @return false|string
      */
@@ -56,7 +54,6 @@ class BaseModel extends Model
 
     /**
      * 显示更新时间
-     * @Interface getUpdatedAtAttribute
      * @param $value
      * @return false|string
      */
@@ -67,42 +64,38 @@ class BaseModel extends Model
 
     /**
      * 获取单行数据
-     * @Interface getInfo
      * @param $field 字段
      * @param $value 字段值
      * @return \Hyperf\Database\Model\Builder|\Hyperf\Database\Model\Model|null|object
      */
-    public static function getInfo($field,$value)
+    public function getInfo($field,$value)
     {
-        return self::query()->where($field,$value)->first();
+        return $this->query()->where($field,$value)->first();
     }
 
     /**
      * 获取多行数据
-     * @Interface listInfo
      * @param $field
      * @param $value
      * @return \Hyperf\Database\Model\Builder[]|\Hyperf\Database\Model\Collection
      */
-    public static function listInfo($field,$value)
+    public function listInfo($field,$value)
     {
-        return self::query()->whereIn($field,$value)->get();
+        return $this->query()->whereIn($field,$value)->get();
     }
 
     /**
      * 保存数据
-     * @Interface saveInfo
      * @param $data
      * @return BaseModel|\Hyperf\Database\Model\Model
      */
     public function saveInfo($data)
     {
-        return self::create($data);
+        return $this->create($data);
     }
 
     /**
      * 更新数据
-     * @Interface updateInfo
      * @param $field
      * @param $value
      * @param $data
@@ -110,12 +103,11 @@ class BaseModel extends Model
      */
     public function updateInfo($field,$value,$data)
     {
-        return self::query()->where($field, $value)->update($data);
+        return $this->query()->where($field, $value)->update($data);
     }
 
     /**
      * 删除数据
-     * @Interface deleteInfo
      * @param $field
      * @param $value
      * @return int|mixed
@@ -123,9 +115,9 @@ class BaseModel extends Model
     public function deleteInfo($field,$value)
     {
         if (is_array($field)) {
-            return self::query()->whereIn($field, $value)->delete();
+            return $this->query()->whereIn($field, $value)->delete();
         } else {
-            return self::query()->where($field,$value)->delete();
+            return $this->query()->where($field,$value)->delete();
         }
     }
 }

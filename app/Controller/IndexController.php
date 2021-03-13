@@ -31,11 +31,11 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
  */
 class IndexController extends AbstractController
 {
-    /**
-     * @Inject
-     * @var DemoService
-     */
-    public $demoService;
+//    /**
+//     * @Inject
+//     * @var DemoService
+//     */
+//    public $demoService;
 
     /**
      * @Inject()
@@ -49,7 +49,8 @@ class IndexController extends AbstractController
 //        $user = Zq::query()->get();
 //        return $user;
 //        return (new Ip())->getClientIp();
-//        return Zq::listInfo('id',[1,2]);
+        $data = new Zq();
+        return $data->listInfo('id',[1,2]);
         echo 666;
     }
 
