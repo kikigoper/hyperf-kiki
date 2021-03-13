@@ -51,6 +51,7 @@ class AdminLoginLogController extends AbstractAdminController
 		$form->item('user_id', AdminLoginLog::labels()['user_id']);
 		$form->item('user_name', AdminLoginLog::labels()['user_name']);
 		$form->item('ip', AdminLoginLog::labels()['ip']);
+
 		return $form;
 	}
 }

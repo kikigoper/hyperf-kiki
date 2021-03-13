@@ -44,6 +44,28 @@ class BaseModel extends Model
     }
 
     /**
+     * 显示增加时间
+     * @Interface getCreatedAtAttribute
+     * @param $value
+     * @return false|string
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i',$value);
+    }
+
+    /**
+     * 显示更新时间
+     * @Interface getUpdatedAtAttribute
+     * @param $value
+     * @return false|string
+     */
+    public function getUpdatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i',$value);
+    }
+
+    /**
      * 获取单行数据
      * @Interface getInfo
      * @param $field 字段
