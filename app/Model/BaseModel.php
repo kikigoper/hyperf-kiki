@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace App\Model;
 
 use Hyperf\DbConnection\Model\Model;
-use Hyperf\Database\Model\Events\Saving;
+use Hyperf\Database\Model\Events\Creating;
 use Hyperf\Database\Model\Events\Updating;
 
 /**
@@ -16,12 +16,14 @@ class BaseModel extends Model
 {
     public $timestamps = false; // 默认created_at 和 updated_at
 
+    protected $dateFormat = 'U';
+
     /**
-     * 增加时回调($fillable参数要设置值)
+     * 增加时回调($fillable参数要设置值并且timestamps为true)
      * @Interface saving
      * @param Saving $event
      */
-    public function saving(Saving $event)
+    public function creating(Creating $event)
     {
         if ($this->timestamps) {
             $this->setCreatedAt(time());
@@ -30,7 +32,7 @@ class BaseModel extends Model
     }
 
     /**
-     * 更新时回调($fillable参数要设置值)
+     * 更新时回调($fillable参数要设置值并且timestamps为true)
      * @Interface updating
      * @param Updating $event
      */

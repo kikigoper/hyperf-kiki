@@ -51,17 +51,6 @@ class AdminLoginLogController extends AbstractAdminController
 		$form->item('user_id', AdminLoginLog::labels()['user_id']);
 		$form->item('user_name', AdminLoginLog::labels()['user_name']);
 		$form->item('ip', AdminLoginLog::labels()['ip']);
-
-        $form->saving(function (Form $form) {
-//            $form->item('created_at',time());
-//            $form->item('updated_at', time());
-//            echo $form->user_name;
-        });
-        $form->editing(function (Form $form) {
-
-            $form->item('updated_at', time());
-        });
-
 		return $form;
 	}
 }

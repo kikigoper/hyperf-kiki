@@ -21,6 +21,9 @@ class AdminLoginLog extends BaseModel
      * @var string
      */
     protected $table = 'admin_login_log';
+
+    public $timestamps = true;
+
     /**
      * The attributes that are mass assignable.
      *
