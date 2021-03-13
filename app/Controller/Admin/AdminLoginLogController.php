@@ -31,12 +31,12 @@ class AdminLoginLogController extends AbstractAdminController
 		//$grid->hidePage(); 隐藏分页
 		//$grid->hideActions(); 隐藏操作
 		$grid->className('m-15');
-		$grid->column('id', AdminLoginLog::attributeLabels()['id']);
-		$grid->column('user_id', AdminLoginLog::attributeLabels()['user_id']);
-		$grid->column('user_name', AdminLoginLog::attributeLabels()['user_name']);
-		$grid->column('ip', AdminLoginLog::attributeLabels()['ip']);
-		$grid->column('created_at', AdminLoginLog::attributeLabels()['created_at']);
-		$grid->column('updated_at', AdminLoginLog::attributeLabels()['updated_at']);
+		$grid->column('id', AdminLoginLog::labels()['id']);
+		$grid->column('user_id', AdminLoginLog::labels()['user_id']);
+		$grid->column('user_name', AdminLoginLog::labels()['user_name']);
+		$grid->column('ip', AdminLoginLog::labels()['ip']);
+		$grid->column('created_at', AdminLoginLog::labels()['created_at']);
+		$grid->column('updated_at', AdminLoginLog::labels()['updated_at']);
 
 		return $grid;
 	}
@@ -47,12 +47,20 @@ class AdminLoginLogController extends AbstractAdminController
 		$form = new Form(new AdminLoginLog);
 		$form->className('m-15');
 		$form->setEdit($isEdit);
-		$form->item('id', AdminLoginLog::attributeLabels()['id']);
-		$form->item('user_id', AdminLoginLog::attributeLabels()['user_id']);
-		$form->item('user_name', AdminLoginLog::attributeLabels()['user_name']);
-		$form->item('ip', AdminLoginLog::attributeLabels()['ip']);
-		$form->item('created_at', AdminLoginLog::attributeLabels()['created_at']);
-		$form->item('updated_at', AdminLoginLog::attributeLabels()['updated_at']);
+		$form->item('id', AdminLoginLog::labels()['id']);
+		$form->item('user_id', AdminLoginLog::labels()['user_id']);
+		$form->item('user_name', AdminLoginLog::labels()['user_name']);
+		$form->item('ip', AdminLoginLog::labels()['ip']);
+
+        $form->saving(function (Form $form) {
+//            $form->item('created_at',time());
+//            $form->item('updated_at', time());
+//            echo $form->user_name;
+        });
+        $form->editing(function (Form $form) {
+
+            $form->item('updated_at', time());
+        });
 
 		return $form;
 	}

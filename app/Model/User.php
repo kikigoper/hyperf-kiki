@@ -13,7 +13,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property string $phone 
  * @property string $username 
  */
-class User extends Model
+class User extends BaseModel
 {
     /**
      * The table associated with the model.

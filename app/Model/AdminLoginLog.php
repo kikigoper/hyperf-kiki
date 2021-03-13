@@ -3,7 +3,8 @@
 declare (strict_types=1);
 namespace App\Model;
 
-use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Model\Events\Saving;
+
 /**
  * @property int $id 
  * @property int $user_id 
@@ -12,7 +13,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  */
-class AdminLoginLog extends Model
+class AdminLoginLog extends BaseModel
 {
     /**
      * The table associated with the model.
@@ -25,7 +26,8 @@ class AdminLoginLog extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['id','user_id','user_name','ip','created_at','updated_at'];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -33,7 +35,7 @@ class AdminLoginLog extends Model
      */
     protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'created_at' => 'integer', 'updated_at' => 'integer'];
 
-    public static function attributeLabels()
+    public static function labels()
     {
         return [
             'id' => 'ID',

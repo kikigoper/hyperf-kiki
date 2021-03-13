@@ -49,7 +49,8 @@ class IndexController extends AbstractController
 //        $user = Zq::query()->get();
 //        return $user;
 //        return (new Ip())->getClientIp();
-        return Zq::listInfo('id',[1,2]);
+//        return Zq::listInfo('id',[1,2]);
+        echo 666;
     }
 
     /**
