@@ -21,16 +21,19 @@ class Ip
     public function getClientIp()
     {
         $res = $this->request->getServerParams();
-        if(isset($res['http_client_ip'])){
-            return $res['http_client_ip'];
-        }elseif(isset($res['http_x_real_ip'])){
-            return $res['http_x_real_ip'];
-        }elseif(isset($res['http_x_forwarded_for'])){
+        if (isset($res['http_client_ip'])) {
+            $ip = $res['http_client_ip'];
+        } elseif (isset($res['http_x_real_ip'])) {
+            $ip = $res['http_x_real_ip'];
+        } elseif (isset($res['http_x_forwarded_for'])) {
             //部分CDN会获取多层代理IP，所以转成数组取第一个值
-            $arr = explode(',',$res['http_x_forwarded_for']);
-            return $arr[0];
-        }else{
-            return $res['remote_addr'];
+            $arr = explode(',', $res['http_x_forwarded_for']);
+            $ip = $arr[0];
         }
+        if ((empty($ip) or $ip == '127.0.0.1')) {
+            header('x-real-ip');
+            $ip = $res['remote_addr'];
+        }
+        return $ip;
     }
 }
