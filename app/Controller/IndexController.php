@@ -50,7 +50,7 @@ class IndexController extends AbstractController
 //        return $user;
 //        return (new Ip())->getClientIp();
         $data = new Zq();
-        return $data->listInfo('id',[1,2]);
+        return $data->listInfo('id',[1,2,3]);
         echo 666;
     }
 

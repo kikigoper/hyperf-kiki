@@ -17,11 +17,11 @@ use HPlus\Admin\Model\Admin\Role;
 
 return [
     //后台名称 null不显示
-    'name' => 'HPlus',
+    'name' => 'kiki',
     //后台标题
-    'title' => 'HPlus Admin',
+    'title' => 'kiki Admin',
     //登录界面描述
-    'loginDesc' => 'HPlus Admin 是开箱即用的 Hyperf 后台扩展',
+    'loginDesc' => '',
     //logo 地址 null为内置默认 分为黑暗和明亮两种
     'logo_show' => true,
     'logo' => null,
@@ -29,7 +29,7 @@ return [
     'logo_light' => null,
     'logo_mini_light' => null,
     //版权
-    'copyright' => 'Copyright © 2020 HPlus',
+    'copyright' => 'Copyright © 2021 kiki',
     //默认头像
     'default_avatar' => 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
     //登录页面背景
@@ -42,12 +42,16 @@ return [
     //底部菜单
     'footerLinks' => [
         [
-            'href' => 'https://github.com/hyperf-plus/admin',
-            'title' => 'hyperf版官网',
+//            'href' => 'https://github.com/hyperf-plus/admin',
+            'href' => '',
+//            'title' => 'hyperf版官网',
+            'title' => '',
         ],
         [
-            'href' => 'https://www.yuque.com/hyperf-plus/ui/hplus-ui',
-            'title' => 'UI文档',
+//            'href' => 'https://www.yuque.com/hyperf-plus/ui/hplus-ui',
+            'href' => '',
+//            'title' => 'UI文档',
+            'title' => '',
         ],
     ],
     //是否只保持一个子菜单的展开
