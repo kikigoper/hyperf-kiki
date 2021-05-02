@@ -49,7 +49,7 @@ class BaseModel extends Model
      */
     public function getCreatedAtAttribute($value)
     {
-        return date('Y-m-d H:i',$value);
+        return $value?date('Y-m-d H:i',$value):'';
     }
 
     /**
@@ -59,7 +59,7 @@ class BaseModel extends Model
      */
     public function getUpdatedAtAttribute($value)
     {
-        return date('Y-m-d H:i',$value);
+        return $value?date('Y-m-d H:i',$value):'';
     }
 
     /**
