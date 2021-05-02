@@ -26,8 +26,10 @@ class BaseModel extends Model
     public function creating(Creating $event)
     {
         if ($this->timestamps) {
-            $this->setCreatedAt(time());
-            $this->setUpdatedAt(time());
+            //$this->setCreatedAt(time());
+            //$this->setUpdatedAt(time());
+            $this->setUpdatedAt(date('Y-m-d H:i:s'));
+            $this->setUpdatedAt(date('Y-m-d H:i:s'));
         }
     }
 
@@ -38,7 +40,8 @@ class BaseModel extends Model
     public function updating(Updating $event)
     {
         if ($this->timestamps) {
-            $this->setUpdatedAt(time());
+            //$this->setUpdatedAt(time());
+            $this->setUpdatedAt(date('Y-m-d H:i:s'));
         }
     }
 
@@ -49,7 +52,8 @@ class BaseModel extends Model
      */
     public function getCreatedAtAttribute($value)
     {
-        return $value?date('Y-m-d H:i',$value):'';
+        return $value;
+        //return $value?date('Y-m-d H:i',$value):'';
     }
 
     /**
@@ -59,7 +63,8 @@ class BaseModel extends Model
      */
     public function getUpdatedAtAttribute($value)
     {
-        return $value?date('Y-m-d H:i',$value):'';
+        return $value;
+        //return $value?date('Y-m-d H:i',$value):'';
     }
 
     /**
