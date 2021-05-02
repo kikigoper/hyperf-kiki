@@ -11,9 +11,17 @@ namespace App\Controller\Admin;
 use App\Model\Goods;
 use HPlus\Admin\Controller\AbstractAdminController;
 use HPlus\Route\Annotation\AdminController;
+use HPlus\UI\Components\Attrs\SelectOption;
+use HPlus\UI\Components\Form\DatePicker;
+use HPlus\UI\Components\Form\DateTimePicker;
+use HPlus\UI\Components\Form\Select;
+use HPlus\UI\Components\Grid\Tag;
+use HPlus\UI\Components\Widgets\Alert;
+use HPlus\UI\Components\Widgets\Dialog;
 use HPlus\UI\Components\Widgets\Html;
 use HPlus\UI\Form;
 use HPlus\UI\Grid;
+use HPlus\UI\Layout\Content;
 
 /**
  * @AdminController(prefix="goods", tag="", ignore=true))
@@ -23,12 +31,26 @@ class GoodsController extends AbstractAdminController
 	protected function grid()
 	{
 		$grid = new Grid((new Goods));
-		//$grid->hidePage(); //隐藏分页
+        $grid->dialogForm($this->form()->isDialog(),'700px',['创建标题','编辑标题']); //添加弹窗
+        //$grid->hidePage(); //隐藏分页
 		//$grid->hideActions(); //隐藏操作
         $grid->selection(); // 多选
-        $grid->defaultSort('id', 'desc');
-        $grid->dialogForm($this->form()->isDialog(),'700px',['创建标题','编辑标题']);
+        $grid->quickSearch('goods_name');
+        $grid->quickSearchPlaceholder("产品名称");
+        $grid->filter(function (\HPlus\UI\Grid\Filter $filter) {
+            // 在这里添加字段过滤器
+            $filter->between("created_at", "创建时间")->component(DateTimePicker::make()->type("datetimerange"));
+            $filter->equal("status", "状态")->component(Select::make()
+                ->filterable()
+                ->options(function () {
+                    return [
+                        SelectOption::make(1, name)->avatar("")->desc(""),
+                        SelectOption::make(2, name1)->avatar("")->desc(""),
+                    ];
+                }));
+        });
 		$grid->className('m-15');
+        $grid->defaultSort('id', 'desc'); // 默认id倒序
 		$grid->column('id', Goods::labels()['id'])->width('70px')->sortable();
 		$grid->column('cate_id', Goods::labels()['cate_id']);
 		$grid->column('goods_name', Goods::labels()['goods_name']);
@@ -53,7 +75,7 @@ class GoodsController extends AbstractAdminController
 		//$grid->column('user_session', Goods::labels()['user_session']);
 		//$grid->column('comment', Goods::labels()['comment']);
 		$grid->column('is_ship', Goods::labels()['is_ship']);
-		$grid->column('created_at', Goods::labels()['created_at']);
+		$grid->column('created_at', Goods::labels()['created_at'])->width('90px');
 		//$grid->column('updated_at', Goods::labels()['updated_at']);
 
 		return $grid;
