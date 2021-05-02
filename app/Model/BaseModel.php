@@ -79,9 +79,13 @@ class BaseModel extends Model
      * @param $value
      * @return \Hyperf\Database\Model\Builder[]|\Hyperf\Database\Model\Collection
      */
-    public function listInfo($field,$value)
+    public function listInfo($field = '',$value = '')
     {
-        return $this->query()->whereIn($field,$value)->get();
+        if (empty($field) || empty($value)) {
+            return $this->query()->get();
+        } else {
+            return $this->query()->whereIn($field, $value)->get();
+        }
     }
 
     /**

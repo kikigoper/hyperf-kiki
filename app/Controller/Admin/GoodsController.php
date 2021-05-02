@@ -11,6 +11,7 @@ namespace App\Controller\Admin;
 use App\Model\Goods;
 use HPlus\Admin\Controller\AbstractAdminController;
 use HPlus\Route\Annotation\AdminController;
+use HPlus\UI\Components\Widgets\Html;
 use HPlus\UI\Form;
 use HPlus\UI\Grid;
 
@@ -21,10 +22,12 @@ class GoodsController extends AbstractAdminController
 {
 	protected function grid()
 	{
-		$grid = new Grid(new Goods);
+		$grid = new Grid((new Goods));
 		//$grid->hidePage(); //隐藏分页
 		//$grid->hideActions(); //隐藏操作
-		$grid->dialogForm($this->form()->isDialog(),'700px',['创建标题','编辑标题']);
+        $grid->selection(); // 多选
+        $grid->defaultSort('id', 'desc');
+        $grid->dialogForm($this->form()->isDialog(),'700px',['创建标题','编辑标题']);
 		$grid->className('m-15');
 		$grid->column('id', Goods::labels()['id'])->width('70px')->sortable();
 		$grid->column('cate_id', Goods::labels()['cate_id']);
@@ -62,7 +65,7 @@ class GoodsController extends AbstractAdminController
 		$form = new Form(new Goods);
 		$form->className('m-15');
 		$form->setEdit($isEdit);
-		$form->item('id', Goods::labels()['id']);
+		//$form->item('id', Goods::labels()['id']);
 		$form->item('cate_id', Goods::labels()['cate_id']);
 		$form->item('goods_name', Goods::labels()['goods_name']);
 		$form->item('main_image', Goods::labels()['main_image']);
