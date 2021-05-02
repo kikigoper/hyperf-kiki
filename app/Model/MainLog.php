@@ -46,4 +46,44 @@ class MainLog extends BaseModel
             'updated_at' => '更新时间',
         ];
     }
+
+    public function log($data)
+    {
+        try {
+            if ($data) {
+                if (!isset($data['en_key']) || empty($data['en_key'])) {
+                    throw new \Exception('英文索引不能为空');
+                }
+            } else {
+                throw new \Exception('数据不能为空');
+            }
+            if ($this->existInfo('en_key', $data['en_key'])) {
+                throw new \Exception('英文索引已存在，请更换后重试');
+            }
+        } catch (\Throwable $e) {
+            return [
+                'errorMessage' => ',文件：' .
+                    $e->getFile() . ',行：' .
+                    $e->getLine() . ',出错信息：' .
+                    $e->getMessage(),
+            ];
+        }
+        return $this->saveInfo($data);
+    }
+
+    /**
+     * 判断数据是否存在
+     * @param $enKey
+     * @return bool
+     */
+    public function existInfo($key, $value)
+    {
+        $data = $this->getInfo($key, $value);
+
+        if ($data) {
+            return true;
+        }
+
+        return false;
+    }
 }

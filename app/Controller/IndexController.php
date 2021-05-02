@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Common\Tool\Ip;
+use App\Common\Tool\Log;
 use App\Manager\HttpClient\GuzzleHttp;
 use App\Model\Zq;
 use App\Service\DemoService;
@@ -43,16 +44,32 @@ class IndexController extends AbstractController
      */
     protected $validationFactory;
 
+    /**
+     * @Inject
+     * @var Log
+     */
+    protected $log;
 
     public function index()
     {
-//        $user = Zq::query()->get();
-//        return $user;
-//        return (new Ip())->getClientIp();
-        $data = new Zq();
-        return $data->listInfo('id',[1,2,3]);
-        echo 666;
+        $data = [
+            'en_key' => 'zq1',
+            'cn_key' => '钟琪',
+            'content' => '哈哈哈',
+        ];
+        return $this->log->debug($data);
     }
+
+
+//    public function index()
+//    {
+////        $user = Zq::query()->get();
+////        return $user;
+////        return (new Ip())->getClientIp();
+//        $data = new Zq();
+//        return $data->listInfo('id',[1,2,3]);
+//        echo 666;
+//    }
 
     /**
      * 模型es
