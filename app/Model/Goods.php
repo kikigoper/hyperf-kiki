@@ -101,6 +101,10 @@ class Goods extends BaseModel
         'image' => 'array',
     ];
 
+    /**
+     * 字段标签
+     * @return array
+     */
     public static function labels()
     {
         return [
@@ -110,7 +114,7 @@ class Goods extends BaseModel
             'main_image' => '产品图片',
             'image' => '轮播图',
             'introduction' => '简介',
-            'keywords' => '关键字',
+            'keywords' => 'SEO描述',
             'unit' => '单位',
             'sell_price' => '售价',
             'market_price' => '市场价',
@@ -142,10 +146,93 @@ class Goods extends BaseModel
         1 => '不包邮',
     ];
 
+    /**
+     * 状态
+     * @var array
+     */
     public static $status = [
-        10 => '上架',
-        1 => '下架',
+        10 => ['key' => '上架', 'tag' => 'pramary'],
+        1 => ['key' => '下架', 'tag' => 'danger'],
     ];
+
+    /**
+     * 获取状态索引和key
+     * @param string $status
+     * @return string
+     */
+    public static function getStatusKey($status = '')
+    {
+        if ($status) {
+            return self::$status[$status]['key'] ?? '';
+        } else {
+            foreach (self::$status as $k => $v) {
+                $data[$k] = $v['key'];
+            }
+
+            return $data;
+        }
+    }
+
+    /**
+     * 状态tag标签
+     * @var array
+     */
+    public static function getStatusTag($tag = '')
+    {
+        if (!$tag) {
+            foreach (self::$status as $k => $v) {
+                $data[$v['key']] = $v['tag'];
+            }
+
+            return $data;
+        }
+    }
+
+    /**
+     * 状态tag标签
+     * @var array
+     */
+    public static $statusTag = [
+        '上架' => 'pramary',
+        '下架' => 'danger',
+    ];
+
+    /**
+     * 积分
+     * @var array
+     */
+    public static $integral = [
+        0 => "0",
+        50 => "50",
+        100 => "100",
+        200 => "200",
+    ];
+
+    /**
+     * @var int 默认积分键
+     */
+    public static $defaultIntegral = 0;
+
+    /**
+     * 库存预警值
+     * @var int
+     */
+    public static $stockWarmLabel = 20;
+
+    /**
+     * 库存预警样式
+     * @var array
+     */
+    public static $stockWarmType = [
+        'warning' => 'warning',
+        'info' => 'info',
+    ];
+
+    //public static $stockWarmType = [
+    //    'warning' => 'warning',
+    //    'info' => 'info',
+    //];
+
 
     /**
      * 数据增加调用回调
