@@ -7,7 +7,6 @@ namespace App\Model;
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Model\Events\Creating;
 
-
 /**
  * @property int $id 商品id
  * @property int $cate_id 分类id

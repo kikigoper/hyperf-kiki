@@ -68,6 +68,9 @@ class MainLog extends BaseModel
                     $e->getMessage(),
             ];
         }
+        if (is_array($data['content'])) {
+            $data['content'] = json_encode($data['content']);
+        }
         return $this->saveInfo($data);
     }
 

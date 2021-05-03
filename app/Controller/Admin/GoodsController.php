@@ -1,14 +1,14 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * 模块
+ * 商品模块
  */
 
 namespace App\Controller\Admin;
 
 use App\Model\Goods;
+use App\Model\GoodsUnit;
 use HPlus\Admin\Controller\AbstractAdminController;
 use HPlus\Route\Annotation\AdminController;
 use HPlus\UI\Components\Attrs\SelectOption;
@@ -28,12 +28,20 @@ use HPlus\UI\Components\Widgets\Text;
 use HPlus\UI\Form;
 use HPlus\UI\Grid;
 use HPlus\UI\Layout\Content;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * @AdminController(prefix="goods", tag="", ignore=true))
  */
 class GoodsController extends AbstractAdminController
 {
+    /**
+     *@Inject
+     *@var GoodsUnit
+     */
+    protected $goodsUnit;
+
+
     protected function grid()
     {
         $grid = new Grid((new Goods));
@@ -121,12 +129,23 @@ class GoodsController extends AbstractAdminController
         //$form->item('image', Goods::labels()['image']);
         //$form->item('introduction', Goods::labels()['introduction']);
         $form->item('keywords', Goods::labels()['keywords']);
-        $form->item('unit', Goods::labels()['unit'])->required();
+        $form->item('unit', Goods::labels()['unit'])->component(Select::make()->options(function () {
+            $goodsUnitData = $this->goodsUnit->pluck('unit_name', 'id');
+            if ($goodsUnitData) {
+                foreach ($goodsUnitData as $key => $status) {
+                    $data[] = [
+                        'value' => $key,
+                        'label' => $status,
+                    ];
+                }
+                return $data;
+            }
+            return [];
+        }));
         $form->item('sell_price', Goods::labels()['sell_price'])->component(InputNumber::make());
         $form->item('market_price', Goods::labels()['market_price'])->component(InputNumber::make());
         $form->item('cost_price', Goods::labels()['cost_price'])->component(InputNumber::make());
         $form->item('integral', Goods::labels()['integral'])->component(function () {
-            //$integralData = [];
             foreach (Goods::$integral as $k => $v) {
                 $integralData[] = Radio::make($k, $v);
             }
@@ -135,7 +154,7 @@ class GoodsController extends AbstractAdminController
         $form->item('carriage', Goods::labels()['carriage'])->component(InputNumber::make());
         $form->item('sales_volume', Goods::labels()['sales_volume'])->component(InputNumber::make());
         //$form->item('virtual_sales_volume', Goods::labels()['virtual_sales_volume']);
-        $form->item('stock', Goods::labels()['stock'])->component(InputNumber::make());
+        $form->item('stock', Goods::labels()['stock'])->required();
         //$form->item('sort', Goods::labels()['sort']);
         //$form->item('status', Goods::labels()['status']);
         //$form->item('like', Goods::labels()['like']);
