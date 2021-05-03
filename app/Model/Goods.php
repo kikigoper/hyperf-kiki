@@ -217,7 +217,7 @@ class Goods extends BaseModel
      * 库存预警值
      * @var int
      */
-    public static $stockWarmLabel = 20;
+    public static $stockWarmValue = 100;
 
     /**
      * 库存预警样式
@@ -227,12 +227,6 @@ class Goods extends BaseModel
         'warning' => 'warning',
         'info' => 'info',
     ];
-
-    //public static $stockWarmType = [
-    //    'warning' => 'warning',
-    //    'info' => 'info',
-    //];
-
 
     /**
      * 数据增加调用回调

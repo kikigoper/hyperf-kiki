@@ -14,6 +14,7 @@ use HPlus\Route\Annotation\AdminController;
 use HPlus\UI\Components\Attrs\SelectOption;
 use HPlus\UI\Components\Form\DatePicker;
 use HPlus\UI\Components\Form\DateTimePicker;
+use HPlus\UI\Components\Form\InputNumber;
 use HPlus\UI\Components\Form\Radio;
 use HPlus\UI\Components\Form\RadioGroup;
 use HPlus\UI\Components\Form\Select;
@@ -23,6 +24,7 @@ use HPlus\UI\Components\Grid\Tag;
 use HPlus\UI\Components\Widgets\Alert;
 use HPlus\UI\Components\Widgets\Dialog;
 use HPlus\UI\Components\Widgets\Html;
+use HPlus\UI\Components\Widgets\Text;
 use HPlus\UI\Form;
 use HPlus\UI\Grid;
 use HPlus\UI\Layout\Content;
@@ -76,8 +78,12 @@ class GoodsController extends AbstractAdminController
         $grid->column('sales_volume', Goods::labels()['sales_volume'])->sortable();
         //$grid->column('virtual_sales_volume', Goods::labels()['virtual_sales_volume']);
         $grid->column('stock', Goods::labels()['stock'])->sortable()->customValue(function ($row, $value) {
-            return $value;
-        })->component(Tag::make()->type('primary'));
+            if ($value < Goods::$stockWarmValue) {
+                return '<span class="el-tag el-tag--danger el-tag--mini el-tag--light" column-value="' . $value . '">' . $value . '</span>';
+            } else {
+                return '<span class="el-tag el-tag--primary el-tag--mini el-tag--light" column-value="' . $value . '">' . $value . '</span>';
+            }
+        });
         //$grid->column('sort', Goods::labels()['sort']);
         $grid->column('status', Goods::labels()['status'])->customValue(function ($row, $value) {
             return Goods::getStatusKey($value);
@@ -103,8 +109,8 @@ class GoodsController extends AbstractAdminController
         $form->className('m-15');
         $form->setEdit($isEdit);
         //$form->item('id', Goods::labels()['id']);
-        $form->item('cate_id', Goods::labels()['cate_id']);
-        $form->item('goods_name', Goods::labels()['goods_name']);
+        $form->item('cate_id', Goods::labels()['cate_id'])->required();
+        $form->item('goods_name', Goods::labels()['goods_name'])->required();
         //$form->item('main_image', Goods::labels()['main_image']);
         $form->item('main_image', Goods::labels()['main_image'])->Component(function () {
             return Upload::make()->image()->drag()->uniqueName();
@@ -115,10 +121,10 @@ class GoodsController extends AbstractAdminController
         //$form->item('image', Goods::labels()['image']);
         //$form->item('introduction', Goods::labels()['introduction']);
         $form->item('keywords', Goods::labels()['keywords']);
-        $form->item('unit', Goods::labels()['unit']);
-        $form->item('sell_price', Goods::labels()['sell_price']);
-        $form->item('market_price', Goods::labels()['market_price']);
-        $form->item('cost_price', Goods::labels()['cost_price']);
+        $form->item('unit', Goods::labels()['unit'])->required();
+        $form->item('sell_price', Goods::labels()['sell_price'])->component(InputNumber::make());
+        $form->item('market_price', Goods::labels()['market_price'])->component(InputNumber::make());
+        $form->item('cost_price', Goods::labels()['cost_price'])->component(InputNumber::make());
         $form->item('integral', Goods::labels()['integral'])->component(function () {
             //$integralData = [];
             foreach (Goods::$integral as $k => $v) {
@@ -126,10 +132,10 @@ class GoodsController extends AbstractAdminController
             }
             return RadioGroup::make(Goods::$defaultIntegral, $integralData);
         });
-        $form->item('carriage', Goods::labels()['carriage']);
-        $form->item('sales_volume', Goods::labels()['sales_volume']);
+        $form->item('carriage', Goods::labels()['carriage'])->component(InputNumber::make());
+        $form->item('sales_volume', Goods::labels()['sales_volume'])->component(InputNumber::make());
         //$form->item('virtual_sales_volume', Goods::labels()['virtual_sales_volume']);
-        $form->item('stock', Goods::labels()['stock']);
+        $form->item('stock', Goods::labels()['stock'])->component(InputNumber::make());
         //$form->item('sort', Goods::labels()['sort']);
         //$form->item('status', Goods::labels()['status']);
         //$form->item('like', Goods::labels()['like']);
@@ -137,7 +143,7 @@ class GoodsController extends AbstractAdminController
         //$form->item('view', Goods::labels()['view']);
         //$form->item('user_session', Goods::labels()['user_session']);
         //$form->item('is_ship', Goods::labels()['is_ship']);
-        $form->item('is_ship', Goods::labels()['is_ship'])->component(Select::make()->options(function () {
+        $form->item('is_ship', Goods::labels()['is_ship'])->defaultValue(10)->component(Select::make()->options(function () {
             $data = [];
             foreach (Goods::$isShip as $key => $status) {
                 $data[] = [
@@ -147,7 +153,7 @@ class GoodsController extends AbstractAdminController
             }
             return $data;
         }));
-        $form->item('status', Goods::labels()['status'])->component(Select::make()->options(function () {
+        $form->item('status', Goods::labels()['status'])->defaultValue(10)->component(Select::make()->options(function () {
             $data = [];
             foreach (Goods::getStatusKey() as $key => $status) {
                 $data[] = [
