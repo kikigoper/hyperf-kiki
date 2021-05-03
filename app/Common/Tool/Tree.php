@@ -7,7 +7,6 @@
 
 namespace App\Common\Tool;
 
-use App\Model\MainLog;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 
@@ -18,12 +17,6 @@ class Tree
      * @var RequestInterface
      */
     protected $request;
-
-    /**
-     * @Inject
-     * @var MainLog
-     */
-    protected $mainLog;
 
     /**
      * 获取树形结构数据
@@ -60,6 +53,7 @@ class Tree
 
             }
         }
+
         return $list;
     }
 }

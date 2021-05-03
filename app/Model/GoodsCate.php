@@ -67,7 +67,7 @@ class GoodsCate extends BaseModel
 
     public function getTree()
     {
-        $data = $this->listInfo()->toArray();
+        $data = $this->listInfo('status',[10])->toArray();
         return Tree::getTree($data);
     }
 }

@@ -49,13 +49,13 @@ class GoodsCateController extends AbstractAdminController
 	protected function form($isEdit = false)
 	{
         /*@var Model $model */
-        $model = '\App\Model\GoodsCate';
-		$form = new Form(new $model());
+		$form = new Form(new GoodsCate());
 		$form->className('m-15');
 		$form->setEdit($isEdit);
         $form->item('parent_id', GoodsCate::labels()['parent_id'])->component(Select::make()->options(function () {
 
             $data = [];
+            //var_dump((new GoodsCate)->getTree());
             foreach ((new GoodsCate)->getTree() as $key => $status) {
                 $data[] = [
                     'value' => $key,
@@ -64,18 +64,11 @@ class GoodsCateController extends AbstractAdminController
                     'desc' => '',
                 ];
             }
+            //var_dump($data);
             return $data;
         }));
-        //$form->item('parent_id', '上级目录')->component(Select::make(0)->options(function () use ($model) {
-        //    /* @var \HPlus\Admin\Model\Admin\Menu $model */
-        //    return $model::selectOptions(function ($model) {
-        //        $model::query()->where('parent_id', 0)->orderBy('order');
-        //    }, '根目录')->map(function ($title, $id) {
-        //        return SelectOption::make($id, $title);
-        //    });
-        //}));
 		$form->item('title', GoodsCate::labels()['title']);
-		$form->item('order', GoodsCate::labels()['order']);
+		$form->item('order', GoodsCate::labels()['order'])->defaultValue(0);
         $form->item('status', GoodsCate::labels()['status'])->defaultValue(10)->component(Select::make()->options(function () {
             $data = [];
             foreach (GoodsCate::$status as $key => $status) {
@@ -88,7 +81,6 @@ class GoodsCateController extends AbstractAdminController
             }
             return $data;
         }));
-		$form->item('status', GoodsCate::labels()['status']);
 
 		return $form;
 	}
