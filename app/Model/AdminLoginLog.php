@@ -36,7 +36,7 @@ class AdminLoginLog extends BaseModel
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'created_at' => 'integer', 'updated_at' => 'integer'];
+    protected $casts = ['id' => 'integer', 'user_id' => 'integer'];
 
     public static function labels()
     {

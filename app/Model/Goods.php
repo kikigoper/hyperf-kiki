@@ -5,6 +5,8 @@ declare (strict_types=1);
 namespace App\Model;
 
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Database\Model\Events\Creating;
+
 
 /**
  * @property int $id 商品id
@@ -24,7 +26,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property int $virtual_sales_volume 虚拟销量
  * @property int $stock 库存
  * @property int $sort 排序
- * @property int $status 状态：1下架；2上架
+ * @property int $status 状态：1下架；10上架
  * @property int $like 点赞数
  * @property int $collect 收藏
  * @property int $view 浏览量
@@ -41,6 +43,9 @@ class Goods extends BaseModel
      * @var string
      */
     protected $table = 'goods';
+
+    public $timestamps = true; // 默认created_at 和 updated_at
+
     /**
      * The attributes that are mass assignable.
      * @var array
@@ -93,8 +98,7 @@ class Goods extends BaseModel
         'user_session' => 'integer',
         'comment' => 'integer',
         'is_ship' => 'integer',
-        'created_at' => 'integer',
-        'updated_at' => 'integer',
+        'image' => 'array',
     ];
 
     public static function labels()
@@ -124,8 +128,23 @@ class Goods extends BaseModel
             'user_session' => '访问量',
             'comment' => '评论',
             'is_ship' => '是否包邮',
-            'created_at' => '创建时间',
+            'created_at' => '发布时间',
             'updated_at' => '更新时间',
         ];
+    }
+
+    public static $isShip = [
+        10 => '包邮',
+        1 => '不包邮',
+    ];
+
+    /**
+     * 数据增加调用回调
+     * @param Creating $event
+     */
+    public function creating(Creating $event)
+    {
+        parent::creating($event); // 自动维护时间
+        $this->setAttribute('status',10);//增加时默认上架状态
     }
 }

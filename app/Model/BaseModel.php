@@ -17,7 +17,7 @@ class BaseModel extends Model
 {
     public $timestamps = false; // 默认created_at 和 updated_at
 
-    protected $dateFormat = 'U';
+    //protected $dateFormat = 'U';
 
     /**
      * 增加时回调($fillable参数要设置值并且timestamps为true)
@@ -28,7 +28,7 @@ class BaseModel extends Model
         if ($this->timestamps) {
             //$this->setCreatedAt(time());
             //$this->setUpdatedAt(time());
-            $this->setUpdatedAt(date('Y-m-d H:i:s'));
+            $this->setCreatedAt(date('Y-m-d H:i:s'));
             $this->setUpdatedAt(date('Y-m-d H:i:s'));
         }
     }
@@ -52,8 +52,10 @@ class BaseModel extends Model
      */
     public function getCreatedAtAttribute($value)
     {
-        return $value;
-        //return $value?date('Y-m-d H:i',$value):'';
+        //return $value;
+        if (is_string($value)) {
+            return $value ? date('Y-m-d H:i', strtotime($value)) : '';
+        }
     }
 
     /**
@@ -63,8 +65,10 @@ class BaseModel extends Model
      */
     public function getUpdatedAtAttribute($value)
     {
-        return $value;
-        //return $value?date('Y-m-d H:i',$value):'';
+        //return $value;
+        if (is_string($value)) {
+            return $value ? date('Y-m-d H:i', strtotime($value)) : '';
+        }
     }
 
     /**

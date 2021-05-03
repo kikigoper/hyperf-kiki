@@ -33,7 +33,7 @@ class MainLog extends BaseModel
      * The attributes that should be cast to native types.
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'created_at' => 'integer', 'updated_at' => 'integer'];
+    protected $casts = ['id' => 'integer'];
 
     public function labels()
     {
