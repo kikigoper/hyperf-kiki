@@ -33,7 +33,7 @@ class GoodsController extends AbstractAdminController
 	protected function grid()
 	{
 		$grid = new Grid((new Goods));
-        $grid->dialogForm($this->form()->isDialog(),'700px',['创建标题','编辑标题']); //添加弹窗
+        $grid->dialogForm($this->form()->isDialog(),'700px',['商品发布','商品编辑']); //添加弹窗
         //$grid->hidePage(); //隐藏分页
 		//$grid->hideActions(); //隐藏操作
         $grid->selection(); // 多选
@@ -41,7 +41,7 @@ class GoodsController extends AbstractAdminController
         $grid->quickSearchPlaceholder("产品名称");
         $grid->filter(function (\HPlus\UI\Grid\Filter $filter) {
             // 在这里添加字段过滤器
-            $filter->between("created_at", "创建时间")->component(DateTimePicker::make()->type("datetimerange"));
+            $filter->between("created_at", "发布时间")->component(DateTimePicker::make()->type("datetimerange"));
             $filter->equal("status", "状态")->component(Select::make()->options(function () {
                 $data = [];
                 foreach (Goods::$isShip as $key => $status) {
@@ -58,7 +58,7 @@ class GoodsController extends AbstractAdminController
 		$grid->column('id', Goods::labels()['id'])->width('70px')->sortable();
 		$grid->column('cate_id', Goods::labels()['cate_id']);
 		$grid->column('goods_name', Goods::labels()['goods_name']);
-		$grid->column('main_image', Goods::labels()['main_image'])->component(Image::make());
+		$grid->column('main_image', Goods::labels()['main_image'])->component(Image::make()->preview());
 		//$grid->column('image', Goods::labels()['image']);
 		//$grid->column('introduction', Goods::labels()['introduction']);
 		//$grid->column('keywords', Goods::labels()['keywords']);
