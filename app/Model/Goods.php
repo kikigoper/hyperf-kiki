@@ -133,9 +133,18 @@ class Goods extends BaseModel
         ];
     }
 
+    /**
+     * 包邮标签
+     * @var array
+     */
     public static $isShip = [
         10 => '包邮',
         1 => '不包邮',
+    ];
+
+    public static $status = [
+        10 => '上架',
+        1 => '下架',
     ];
 
     /**
@@ -145,6 +154,6 @@ class Goods extends BaseModel
     public function creating(Creating $event)
     {
         parent::creating($event); // 自动维护时间
-        $this->setAttribute('status',10);//增加时默认上架状态
+        $this->setAttribute('status', 10);//增加时默认上架状态
     }
 }

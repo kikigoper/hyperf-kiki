@@ -41,10 +41,11 @@ class GoodsController extends AbstractAdminController
         $grid->quickSearchPlaceholder("产品名称");
         $grid->filter(function (\HPlus\UI\Grid\Filter $filter) {
             // 在这里添加字段过滤器
+            //$filter->equal("id", "商品id");
             $filter->between("created_at", "发布时间")->component(DateTimePicker::make()->type("datetimerange"));
             $filter->equal("status", "状态")->component(Select::make()->options(function () {
                 $data = [];
-                foreach (Goods::$isShip as $key => $status) {
+                foreach (Goods::$status as $key => $status) {
                     $data[] = [
                         'value' => $key,
                         'label' => $status,
@@ -72,13 +73,17 @@ class GoodsController extends AbstractAdminController
 		//$grid->column('virtual_sales_volume', Goods::labels()['virtual_sales_volume']);
 		$grid->column('stock', Goods::labels()['stock'])->sortable();
 		//$grid->column('sort', Goods::labels()['sort']);
-		$grid->column('status', Goods::labels()['status']);
+		$grid->column('status', Goods::labels()['status'])->customValue(function ($row, $value){
+		    return Goods::$status[$value];
+        });
 		//$grid->column('like', Goods::labels()['like']);
 		$grid->column('collect', Goods::labels()['collect']);
 		//$grid->column('view', Goods::labels()['view']);
 		//$grid->column('user_session', Goods::labels()['user_session']);
 		//$grid->column('comment', Goods::labels()['comment']);
-		$grid->column('is_ship', Goods::labels()['is_ship']);
+		$grid->column('is_ship', Goods::labels()['is_ship'])->customValue(function ($row, $value){
+            return Goods::$isShip[$value];
+        });
 		$grid->column('created_at', Goods::labels()['created_at'])->width('90px')->sortable();
 		//$grid->column('updated_at', Goods::labels()['updated_at']);
 
