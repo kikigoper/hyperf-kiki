@@ -19,6 +19,12 @@ class BaseModel extends Model
 
     //protected $dateFormat = 'U';
 
+    public static $status = [
+        1 => '禁用',
+        10 => '开启',
+    ];
+
+
     /**
      * 增加时回调($fillable参数要设置值并且timestamps为true)
      * @param Saving $event
