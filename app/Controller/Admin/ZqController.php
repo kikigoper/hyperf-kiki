@@ -15,7 +15,7 @@ use HPlus\UI\Form;
 use HPlus\UI\Grid;
 
 /**
- * @AdminController(prefix="zq", tag="", ignore=true))
+ * @AdminController(prefix="zq", tag="钟琪测试", ignore=true))
  */
 class ZqController extends AbstractAdminController
 {
@@ -27,11 +27,11 @@ class ZqController extends AbstractAdminController
 		//$grid->hideActions(); 隐藏操作
 		$grid->className('m-15');
 		$grid->column('id', '');
-		$grid->column('created_at', '');
-		$grid->column('updated_at', '');
+		//$grid->column('created_at', '');
+		//$grid->column('updated_at', '');
 		$grid->column('name', '');
 		$grid->column('phone', '');
-		$grid->column('username', '');
+		//$grid->column('username', '');
 
 		return $grid;
 	}
@@ -43,11 +43,11 @@ class ZqController extends AbstractAdminController
 		$form->className('m-15');
 		$form->setEdit($isEdit);
 		$form->item('id', '');
-		$form->item('created_at', '');
-		$form->item('updated_at', '');
+		//$form->item('created_at', '');
+		//$form->item('updated_at', '');
 		$form->item('name', '');
 		$form->item('phone', '');
-		$form->item('username', '');
+		//$form->item('username', '');
 
 		return $form;
 	}

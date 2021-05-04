@@ -31,7 +31,7 @@ use HPlus\UI\Layout\Content;
 use Hyperf\Di\Annotation\Inject;
 
 /**
- * @AdminController(prefix="goods", tag="", ignore=true))
+ * @AdminController(prefix="goods", tag="商品管理", ignore=true))
  */
 class GoodsController extends AbstractAdminController
 {
@@ -71,7 +71,7 @@ class GoodsController extends AbstractAdminController
         $grid->className('m-15');
         $grid->defaultSort('id', 'desc'); // 默认id倒序
         $grid->column('id', Goods::labels()['id'])->width('70px')->sortable();
-        $grid->column('cate_id', Goods::labels()['cate_id']);
+        $grid->column('cate.title', '分类');
         $grid->column('goods_name', Goods::labels()['goods_name']);
         $grid->column('main_image', Goods::labels()['main_image'])->component(Image::make()->preview());
         //$grid->column('image', Goods::labels()['image']);

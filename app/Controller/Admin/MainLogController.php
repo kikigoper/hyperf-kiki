@@ -19,7 +19,7 @@ use HPlus\UI\Form;
 use HPlus\UI\Grid;
 
 /**
- * @AdminController(prefix="mainlog", tag="", ignore=true))
+ * @AdminController(prefix="mainlog", tag="主要日志", ignore=true))
  */
 class MainLogController extends AbstractAdminController
 {

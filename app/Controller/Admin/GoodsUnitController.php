@@ -14,7 +14,7 @@ use HPlus\UI\Form;
 use HPlus\UI\Grid;
 
 /**
- * @AdminController(prefix="goodsunit", tag="", ignore=true))
+ * @AdminController(prefix="goodsunit", tag="商品单位", ignore=true))
  */
 class GoodsUnitController extends AbstractAdminController
 {

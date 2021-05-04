@@ -21,7 +21,7 @@ use HPlus\UI\Layout\Content;
 use Hyperf\Di\Annotation\Inject;
 
 /**
- * @AdminController(prefix="goodscate", tag="", ignore=true))
+ * @AdminController(prefix="goodscate", tag="商品分类", ignore=true))
  */
 class GoodsCateController extends AbstractAdminController
 {

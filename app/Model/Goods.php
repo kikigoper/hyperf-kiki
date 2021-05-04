@@ -100,6 +100,11 @@ class Goods extends BaseModel
         'image' => 'array',
     ];
 
+    public function cate()
+    {
+        return $this->hasOne(GoodsCate::class, 'id', 'cate_id');
+    }
+
     /**
      * 字段标签
      * @return array
