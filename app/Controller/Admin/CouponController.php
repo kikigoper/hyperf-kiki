@@ -64,7 +64,7 @@ class CouponController extends AbstractAdminController
         $form = new Form(new Coupon);
         $form->className('m-15');
         $form->setEdit($isEdit);
-        $form->item('id', Coupon::labels()['id']);
+        //$form->item('id', Coupon::labels()['id']);
         $form->item('title', Coupon::labels()['title']);
         $form->item('icon', Coupon::labels()['icon']);
         $form->item('used', Coupon::labels()['used']);

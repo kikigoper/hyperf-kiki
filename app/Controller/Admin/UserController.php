@@ -58,7 +58,7 @@ class UserController extends AbstractAdminController
         $form = new Form(new User);
         $form->className('m-15');
         $form->setEdit($isEdit);
-        $form->item('uid', User::labels()['uid']);
+        //$form->item('uid', User::labels()['uid']);
         $form->item('username', User::labels()['username']);
         $form->item('password', User::labels()['password']);
         $form->item('salt', User::labels()['salt']);
