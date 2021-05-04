@@ -26,6 +26,8 @@ use HPlus\UI\Components\Widgets\Card;
 use HPlus\UI\Layout\Content;
 use HPlus\UI\Layout\Row;
 use Hyperf\Di\Annotation\Inject;
+use HPlus\Route\Annotation\AdminController;
+
 
 /**
  * @AdminController(prefix="Census", tag="", ignore=true))

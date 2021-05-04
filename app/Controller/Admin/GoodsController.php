@@ -122,7 +122,7 @@ class GoodsController extends AbstractAdminController
         $form->className('m-15');
         $form->setEdit($isEdit);
         //$form->item('id', Goods::labels()['id']);
-        $form->item('cate_id', Goods::labels()['cate_id'])->required();
+        $form->item('cate_id', Goods::labels()['cate_id']);
         $form->item('goods_name', Goods::labels()['goods_name'])->required();
         //$form->item('main_image', Goods::labels()['main_image']);
         $form->item('main_image', Goods::labels()['main_image'])->Component(function () {
@@ -159,7 +159,7 @@ class GoodsController extends AbstractAdminController
         $form->item('carriage', Goods::labels()['carriage'])->component(InputNumber::make());
         $form->item('sales_volume', Goods::labels()['sales_volume'])->component(InputNumber::make());
         //$form->item('virtual_sales_volume', Goods::labels()['virtual_sales_volume']);
-        $form->item('stock', Goods::labels()['stock'])->required();
+        $form->item('stock', Goods::labels()['stock']);
         //$form->item('sort', Goods::labels()['sort']);
         //$form->item('status', Goods::labels()['status']);
         //$form->item('like', Goods::labels()['like']);
