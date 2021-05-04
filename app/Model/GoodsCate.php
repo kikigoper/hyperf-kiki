@@ -1,6 +1,7 @@
 <?php
 
 declare (strict_types=1);
+
 namespace App\Model;
 
 use App\Common\Tool\Tree;
@@ -27,32 +28,24 @@ class GoodsCate extends BaseModel
 
     /**
      * The table associated with the model.
-     *
      * @var string
      */
     protected $table = 'goods_cate';
     /**
      * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = ['id', 'parent_id', 'title', 'order', 'status'];
     /**
      * The attributes that should be cast to native types.
-     *
      * @var array
      */
     protected $casts = ['id' => 'integer', 'parent_id' => 'integer', 'title' => 'string', 'status' => 'integer'];
 
-    //public function children()
-    //{
-    //    return $this->hasMany(get_class($this), 'parent_id')->orderBy('order')->with('children');
-    //}
-
-    //public function allChildren()
-    //{
-    //    return $this->children()->with('allChildren');
-    //}
+    public function children()
+    {
+        return $this->hasMany(get_class($this), 'parent_id')->orderBy('order')->with('children');
+    }
 
     public static function labels()
     {
@@ -67,7 +60,7 @@ class GoodsCate extends BaseModel
 
     public function getTree()
     {
-        $data = $this->listInfo('status',[10])->toArray();
+        $data = $this->listInfo('status', [10])->toArray();
         return Tree::getTree($data);
     }
 }

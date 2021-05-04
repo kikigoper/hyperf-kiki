@@ -36,8 +36,8 @@ use Hyperf\Di\Annotation\Inject;
 class GoodsController extends AbstractAdminController
 {
     /**
-     *@Inject
-     *@var GoodsUnit
+     * @Inject
+     * @var GoodsUnit
      */
     protected $goodsUnit;
 
@@ -106,6 +106,12 @@ class GoodsController extends AbstractAdminController
         });
         $grid->column('created_at', Goods::labels()['created_at'])->width('90px')->sortable();
         //$grid->column('updated_at', Goods::labels()['updated_at']);
+
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('商品信息导出.csv');
+            #指定只能导出哪些列
+            $export->only(Goods::ExportLabels());
+        });
 
         return $grid;
     }

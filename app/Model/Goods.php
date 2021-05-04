@@ -137,6 +137,43 @@ class Goods extends BaseModel
     }
 
     /**
+     * 导出字段标签
+     * @return array
+     */
+    public static function ExportLabels()
+    {
+        return [
+            'id',
+            'cate_id',
+            'goods_name',
+            //'main_image' => '产品图片',
+            //'image' => '轮播图',
+            //'introduction' => '简介',
+            //'keywords' => 'SEO描述',
+            //'unit' => '单位',
+            'sell_price' => '售价',
+            //'market_price' => '市场价',
+            //'cost_price' => '成本价',
+            'integral',
+            'carriage',
+            'sales_volume',
+            //'virtual_sales_volume' => '虚拟销量',
+            'stock',
+            //'sort' => '排序',
+            'status',
+            'like',
+            'collect',
+            'view',
+            'user_session',
+            //'comment' => '评论',
+            'is_ship',
+            'created_at',
+            //'updated_at' => '更新时间',
+        ];
+    }
+
+
+    /**
      * 包邮标签
      * @var array
      */
