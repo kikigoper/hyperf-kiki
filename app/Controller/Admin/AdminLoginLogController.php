@@ -29,7 +29,7 @@ class AdminLoginLogController extends AbstractAdminController
             $actions->hideEditAction();
             $actions->hideDeleteAction();
         });
-		$grid->dialogForm($this->form()->isDialog(),'700px',['创建标题','编辑标题']);
+		$grid->dialogForm($this->form()->isDialog(),'700px',['添加','编辑']);
 		//$grid->hidePage(); 隐藏分页
 		//$grid->hideActions(); 隐藏操作
 		$grid->className('m-15');
@@ -42,7 +42,6 @@ class AdminLoginLogController extends AbstractAdminController
 
 		return $grid;
 	}
-
 
 	protected function form($isEdit = false)
 	{

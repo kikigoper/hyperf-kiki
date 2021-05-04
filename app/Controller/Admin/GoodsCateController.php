@@ -37,7 +37,7 @@ class GoodsCateController extends AbstractAdminController
         $grid->top(function (Content $top) {
             $top->body(Card::make()->content(Html::make()->html("我是头部内容")));
         });
-        $grid->dialogForm($this->form()->isDialog(), '700px', ['创建标题', '编辑标题']);
+        $grid->dialogForm($this->form()->isDialog(), '700px', ['添加', '编辑']);
         //$grid->hidePage(); //隐藏分页
         //$grid->hideActions(); //隐藏操作
         $grid->selection(); //多选

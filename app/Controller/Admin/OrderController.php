@@ -65,13 +65,10 @@ class OrderController extends AbstractAdminController
         //$grid->column('update_at', Order::labels()['update_at']);
         $grid->export(function (Grid\Exporters\CsvExporter $export) {
             $export->filename('订单信息导出.csv');
-            #指定只能导出哪些列
-            $export->only(Goods::ExportLabels());
         });
 
         return $grid;
     }
-
 
     protected function form($isEdit = false)
     {
