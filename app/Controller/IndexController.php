@@ -26,6 +26,7 @@ use Hyperf\Cache\Annotation\CachePut;
 use App\Request\FooRequest;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
+use Hyperf\View\RenderInterface;
 
 /**
  * @AutoController()
@@ -50,15 +51,32 @@ class IndexController extends AbstractController
      */
     protected $log;
 
-    public function index()
+    public function index(RenderInterface $render)
     {
-        $data = [
-            'en_key' => 'zq1',
-            'cn_key' => '钟琪',
-            'content' => '哈哈哈',
-        ];
-        return $this->log->debug($data);
+//        $data = [
+//            'en_key' => 'zq1',
+//            'cn_key' => '钟琪',
+//            'content' => '哈哈哈',
+//        ];
+//        return $this->log->debug($data);
+        return $render->render('index.index', ['name' => 'Hyperf']);
+
     }
+    
+    /**
+     * view
+     */
+//    public function index(RenderInterface $render)
+//    {
+////        $data = [
+////            'en_key' => 'zq1',
+////            'cn_key' => '钟琪',
+////            'content' => '哈哈哈',
+////        ];
+////        return $this->log->debug($data);
+//        return $render->render('index.index', ['name' => 'Hyperf']);
+//
+//    }
 
 
 //    public function index()
