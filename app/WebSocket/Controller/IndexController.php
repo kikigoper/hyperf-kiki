@@ -18,16 +18,32 @@ use Swoole\WebSocket\Server as WebSocketServer;
 
 class IndexController implements OnMessageInterface, OnOpenInterface, OnCloseInterface
 {
+    /**
+     * 消息返回
+     * @param \Swoole\Http\Response|WebSocketServer $server
+     * @param Frame $frame
+     */
     public function onMessage($server, Frame $frame): void
     {
-        $server->push($frame->fd, 'Recv: ' . $frame->data);
+        $server->push($frame->fd, 'Recv: ' . $frame->data); //push用于返回消息
     }
 
+    /**
+     * 关闭连接
+     * @param \Swoole\Http\Response|Server $server
+     * @param int $fd
+     * @param int $reactorId
+     */
     public function onClose($server, int $fd, int $reactorId): void
     {
         var_dump('closed');
     }
 
+    /**
+     * 打开连接
+     * @param \Swoole\Http\Response|WebSocketServer $server
+     * @param Request $request
+     */
     public function onOpen($server, Request $request): void
     {
         $server->push($request->fd, 'Opened');
