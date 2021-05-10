@@ -11,8 +11,15 @@ declare(strict_types=1);
  */
 use Hyperf\HttpServer\Router\Router;
 
+// http 路由使用自动路由
 Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\IndexController@index');
 
 Router::get('/favicon.ico', function () {
     return '';
 });
+
+// ws路由
+Router::addServer('ws', function () {
+    Router::get('/', 'App\WebSocket\Controller\IndexController');
+});
+

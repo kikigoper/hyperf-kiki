@@ -57,7 +57,7 @@ class IndexController extends AbstractController
             'cn_key' => '钟琪',
             'content' => '哈哈哈',
         ];
-        return $this->log->debug($data);
+        return $data;
     }
 
 
