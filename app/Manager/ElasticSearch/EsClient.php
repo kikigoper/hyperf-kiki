@@ -5,6 +5,12 @@
 
 namespace App\Manager\ElasticSearch;
 
+use Hyperf\Contract\ContainerInterface;
+use Hyperf\Di\Annotation\Inject;
+use Hyperf\Elasticsearch\ClientBuilderFactory;
+
+use Hyperf\Utils\ApplicationContext;
+
 /**
  * Es7
  * Class EsClient
@@ -12,14 +18,15 @@ namespace App\Manager\ElasticSearch;
  */
 class EsClient
 {
-    private $client;
+    private $esClient;
     private $index;
     private $type;
 
-    /*
-     * $throw  是否在未知参数时抛出异常
-     *
+    /**
+     * @Inject()
+     * @var ContainerInterface
      */
+    protected $container;
 
     /**
      * 初始化
@@ -32,251 +39,477 @@ class EsClient
     {
         $this->index = $index ?: 'test';
         $this->type = $type ?: '_doc';
-        // 获取配置 按层级用点号分隔
-        $config = new \EasySwoole\ElasticSearch\Config([
-            'host' => env('ELASTICSEARCH_HOST','localhost'),
-            'port' => env('ELASTICSEARCH_PORT','9200'),
-        ]);
+        $this->container = ApplicationContext::getContainer();
+        $clientBuilder = $this->container->get(ClientBuilderFactory::class);
+        $builder = $clientBuilder->create();
+        $host = explode(',', config('es_host'));
+        $this->esClient = $builder->setHosts($host)->build();
+    }
 
-        $elasticsearch = new \EasySwoole\ElasticSearch\ElasticSearch($config);
-        if (empty($this->client)) {
-            $this->client = $elasticsearch;
+
+    /**
+     * 判断索引是否存在
+     **/
+
+    public function indexExistsEs()
+    {
+        $params = [
+            'index' => $this->index,
+        ];
+
+        $result = $this->esClient->indices()->exists($params);
+
+        return $result;
+    }
+
+
+    /**
+     * 创建索引
+     **/
+
+    public function createIndex()
+    {
+        $params = [
+            'index' => $this->index,
+        ];
+
+        $result = $this->esClient->indices()->create($params);
+
+        return $result;
+    }
+
+    /**
+     * 设置mapping
+     **/
+
+    public function putMapping($params)
+    {
+        extract($params);
+
+        $mapping['index'] = $this->index;
+
+        $mapping['type'] = $this->type;
+
+        $field_type['keyword'] = [
+            'type' => 'keyword',
+        ];
+
+        $field_type['text'] = [
+            'type' => 'text',
+            'analyzer' => 'ik_max_word',
+            'search_analyzer' => 'ik_max_word',
+        ];
+
+        $data = [
+
+            'properties' => value(function () use ($mapping_key, $field_type) {
+                $properties = [];
+
+                foreach ($mapping_key as $key => $value) {
+                    if (empty($value)) {
+                        continue;
+
+                    }
+
+                    foreach ($value as $cvalue) {
+                        $properties[$cvalue] = $field_type[$key];
+
+                    }
+
+                }
+
+                return $properties;
+
+            })
+
+        ];
+
+        $mapping['body'] = $data;
+
+        return $this->esClient->indices()->putMapping($mapping);
+    }
+
+
+    /**
+     * 判断文档是否存在
+     **/
+    public function existsEs($params)
+    {
+        return $this->esClient->exists($params);
+
+    }
+
+    /**
+     * 创建文档
+     **/
+
+    public function indexEs($params = [], $id = '')
+    {
+//        extract($params);
+
+        $index_data = [
+
+            'index' => $this->index,
+
+            'type' => $this->type,
+
+            'id' => $id,
+
+            'body' => $params,
+
+        ];
+
+        return $this->esClient->index($index_data);
+    }
+
+    /**
+     * 修改文档
+     **/
+
+    public function updateEs($params,$id = '')
+    {
+//        extract($params);
+
+        $update_data = [
+
+            'index' => $this->index,
+
+            'type' => $this->type,
+
+            'id' => $id,
+
+            'body' => [
+
+                'doc' => $params,
+
+            ],
+
+        ];
+
+        return $this->esClient->update($update_data);
+    }
+
+
+    /**
+     * 修改文档
+     **/
+
+    public function deleteEs($params,$id = '')
+    {
+        extract($params);
+
+        $delete_data = [
+
+            'index' => $this->index,
+
+            'type' => $this->type,
+
+            'id' => $id,
+
+        ];
+
+        return $this->esClient->delete($delete_data);
+    }
+
+
+    /**
+     * 查询数据
+     * 请求参数实例：
+     * $es_params['data']: 详细数据 键值对形式
+     * $es_params['condition']['must_field']: es bool查询must对应字段 ['terms_field'=>['id','pid'],'range_field'=>['ctime','age']] 等
+     * $es_params['condition']['should_field']: es bool查询should对应字段 ['terms_field'=>['id','pid'],'range_field'=>['ctime','age']] 等
+     * $es_params['source_field']: es 查询需要获取的字段
+     * $es_params['field_alias']:  查询字段别名 例如 'field'=>[{'a'=>'123'}] 查询时候拼接 field.a=*
+     */
+
+    public function searchEs($es_params)
+    {
+        extract($es_params);
+
+        if (!isset($field_alias)) {
+            $field_alias = [];
+
         }
-    }
 
-    /**
-     * @param array $params 插入参数(必填)
-     * @param string $id 唯一id(必填)
-     */
-    public function insert($params = [], $id = '')
-    {
-        $bean = new \EasySwoole\ElasticSearch\RequestBean\Create();
-        $bean->setIndex($this->index);
-        //$bean->setType($this->type);
-        $bean->setId($id);
-        $bean->setBody($params);
-        $response = $this->client->client()->create($bean)->getBody();
-        $response = json_decode($response, true);
-        print_r($response);
-    }
+        $offset = $data['offset'] ?? 0;
 
-    /**
-     * 批量插入
-     * @param $params
-     * $params = [
-     * [
-     * 'id' => 23,
-     * 'name' => '钟琪',
-     * 'phone' => 13046252389,
-     * ],
-     * [
-     * 'id' => 24,
-     * 'name' => '钟琪1',
-     * 'phone' => 13046252388,
-     * ],
-     * ];
-     * @return mixed
-     */
-    public function bacthInsert($params)
-    {
-        $bean = new \EasySwoole\ElasticSearch\RequestBean\Bulk();
-        $bean->setIndex($this->index);
-        //$bean->setType($this->type);
+        $limit = $data['limit'] ?? 50;
 
-        $body = [];
-        foreach ($params as $k => $v) {
+        $order_field = $data['order_field'] ?? 'id';
 
-            $body[] = [
-                'create' => [
-                    '_index' => $this->index,
-                    '_type' => $this->type,
-                    '_id' => $v['id'],
-                ],
-            ];
-            unset($v['id']);
-            $body[] = $v;
+        $order_type = $data['order_type'] ?? 'desc';
+
+        if (!in_array($order_type, ['asc', 'desc'])) {
+            $order_type = 'desc';
+
         }
-        //print_r($body);
 
+        //初始化查询body
 
-        $bean->setBody($body);
-        $response = $this->client->client()->bulk($bean)->getBody();
-        $response = json_decode($response, true);
-        return $response;
-    }
+        $body = ['from' => $offset, 'size' => $limit, 'sort' => [$order_field => $order_type]];
 
-    /**
-     * 删除
-     * @param $id
-     * @return mixed
-     */
-    public function delete($id)
-    {
-        $bean = new \EasySwoole\ElasticSearch\RequestBean\Delete();
-        $bean->setIndex($this->index);
-        $bean->setId($id);
-        $response = $this->client->client()->delete($bean)->getBody();
-        $response = json_decode($response, true);
-        return $response;
-    }
+        //获取bool查询条件
 
-    /**
-     * 根据查询删除
-     * @param $params
-     * $params = ['name'=>'测试删除']
-     */
-    public function deleteByQuery($params)
-    {
-        $bean = new \EasySwoole\ElasticSearch\RequestBean\DeleteByQuery();
-        $bean->setIndex($this->index);
-        $bean->setBody([
-            'query' => [
-                'match' => $params,
-            ],
-        ]);
-        $response = $this->client->client()->deleteByQuery($bean)->getBody();
-        $response = json_decode($response, true);
-        return $response;
-    }
+        $bool = $this->_getQueryInfo($data, $condition, $field_alias);
 
-    /**
-     * 根据id修改
-     * @param $id 必填
-     * @param $params
-     * $params = ['test-field' => 'value']
-     */
-    public function update($id, $params)
-    {
-        $bean = new \EasySwoole\ElasticSearch\RequestBean\Update();
-        $bean->setIndex($this->index);
-        //$bean->setType($this->type);
-        $bean->setId($id);
-        $bean->setBody([
-            'doc' => $params,
-        ]);
-        $response = $this->client->client()->update($bean)->getBody();
-        $response = json_decode($response, true);
-        return $response;
-    }
+        if (!empty($bool)) {
+            $body['query'] = ['bool' => $bool];
 
-    /**
-     * 根据查询条件修改
-     * @param $condition 更新条件
-     * $condition = ['id' => '12']
-     * @param $updateValue 更新值
-     * $updateValue = ['name'=> 666,'phone'=> 13046252389]
-     * @return mixed
-     */
-    public function updateByQuery($condition, $updateValue)
-    {
-
-        $bean = new \EasySwoole\ElasticSearch\RequestBean\UpdateByQuery();
-        $bean->setIndex($this->index);
-        //$bean->setType($this->type);
-        foreach ($updateValue as $k => $v) {
-            $source[] = 'ctx._source["' . $k . '"]="' . $v . '"';
         }
-        $source = implode(';', $source);
-        $bean->setBody([
-            'query' => [
-                'match' => $condition,
-            ],
-            'script' => [
-                'source' => $source,
-            ],
-        ]);
-        $response = $this->client->client()->updateByQuery($bean)->getBody();
-        $response = json_decode($response, true);
-        return $response;
+
+        $source_field = $data['source_field'] ?? '';
+
+        if (!empty($source_field)) {
+            $body['_source'] = explode(',', $source_field);
+
+        }
+
+
+        $params = [
+
+            'index' => $this->index,
+
+            'type' => $this->type,
+
+            'body' => $body,
+
+        ];
+
+        return $this->esClient->search($params);
     }
 
+
     /**
-     * 根据id查询
-     * @param $id
-     *  [_index] => item_product
-        [_type] => _doc
-        [_id] => 1
-        [_version] => 5
-        [_seq_no] => 7
-        [_primary_term] => 1
-        [found] => 1 //要根据该字段来判断是否有数据返回
-        [_source] => Array
-        (
-        [server_name] => 钟琪3
-        [server_id] => 21
-    )
+     * 查询数据
+     * 请求参数实例：
+     * $es_params['data']: 详细数据 键值对形式
+     * $es_params['must_field']: es bool查询must对应字段 ['terms_field'=>['id','pid'],'range_field'=>['ctime','age']] 等
+     * $es_params['should_field']: es bool查询should对应字段 ['terms_field'=>['id','pid'],'range_field'=>['ctime','age']] 等
+     * $es_params['source_field']: es 查询需要获取的字段
+     * $es_params['field_alias']:  查询字段别名 例如 ['a'=>['b','c','d']] 查询时候拼接 a.b=* a.c=*
      */
-    public function get($id)
+
+    public function new_searchEs($es_params)
     {
-        $bean = new \EasySwoole\ElasticSearch\RequestBean\Get();
-        $bean->setIndex($this->index);
-        //$bean->setType($this->type);
-        $bean->setId($id);
-        $response = $this->client->client()->get($bean)->getBody();
-        return json_decode($response, true);
+        extract($es_params);
+
+        if (!isset($field_alias)) {
+            $field_alias = [];
+
+        }
+
+        $offset = $data['offset'] ?? 0;
+
+        $limit = $data['limit'] ?? 50;
+
+        $bool = [];
+
+        if (isset($must_field)) {
+            $must_condition = $this->_getCondition($data, $must_field, $field_alias);
+
+            if (!empty($must_condition)) {
+                $bool['must'] = $must_condition;
+
+            }
+
+        }
+
+        if (isset($should_field)) {
+            $should_condition = $this->_getCondition($data, $should_field, $field_alias);
+
+            if (!empty($should_condition)) {
+                $bool['should'] = $should_condition;
+
+                $bool['minimum_should_match'] = 1;
+
+            }
+
+        }
+
+        $body = ['from' => $offset, 'size' => $limit];
+
+        if (!empty($bool)) {
+            $body['query'] = ['bool' => $bool];
+
+        }
+
+
+        if (!empty($source_field)) {
+            $body['_source'] = $source_field;
+
+        }
+
+        $params = [
+
+            'index' => $this->index,
+
+            'type' => $this->type,
+
+            'body' => $body,
+
+        ];
+
+        return $this->esClient->search($params);
     }
 
-    /**
-     * 根据id数组查询
-     * @param $ids
-     * @return mixed
-     * [docs] => Array
-        (
-        [0] => Array
-            (
-            [_index] => item_product
-            [_type] => _doc
-            [_id] => 1
-            [_version] => 5
-            [_seq_no] => 7
-            [_primary_term] => 1
-            [found] => 1 //要根据该字段来判断是否有数据返回
-            [_source] => Array
-            (
-            [server_name] => 钟琪3
-            [server_id] => 21
-            )
 
-        )
-
-        [1] => Array
-            (
-            [_index] => item_product
-            [_type] => _doc
-            [_id] => 18
-            [found] =>  //要根据该字段来判断是否有数据返回
-        )
-
-    )
-     */
-    public function mget($ids)
+    public function updateByQueryEs($params)
     {
-        $bean = new \EasySwoole\ElasticSearch\RequestBean\Mget();
-        $bean->setIndex($this->index);
-        //$bean->setType($this->type);
-        $bean->setBody(['ids' => $ids]);
-        $response = $this->client->client()->mget($bean)->getBody();
-        return json_decode($response, true);
+        extract($params);
+
+        $query = $this->_getQueryInfo($condition_data, $condition, $field_alias);
+
+        $script = ['params' => $data, 'lang' => 'painless'];
+
+        $source = [];
+
+        foreach ($data as $key => $value) {
+            $source[] = 'ctx._source.' . $key . '=' . 'params.' . $key;
+
+        }
+
+        $script['source'] = implode(';', $source);
+
+        $body = ['script' => $script, 'query' => $query];
+
+        $update_data = [
+
+            'index' => $this->index,
+
+            'type' => $this->type,
+
+            'body' => $body,
+
+        ];
+
+        return $this->esClient->updateByQuery($update_data);
     }
 
-    //其他查询参考  https://www.easyswoole.com/Cn/Components/Elasticsearch/search.html
+
+    public function deleteByQueryEs($params)
+    {
+        extract($params);
+
+        $query = $this->_getQueryInfo($condition_data, $condition, $field_alias);
+
+        $body = ['query' => $query];
+
+        $delete_data = [
+
+            'index' => $this->index,
+
+            'type' => $this->type,
+
+            'body' => $body,
+
+        ];
+
+        return $this->esClient->deleteByQuery($delete_data);
+    }
+
 
     /**
-     * 搜索
-     * @param array $params
-     * @return mixed
+     * 整理bool查询条件
+     * 请求参数实例：
+     * $es_params['data']: 详细数据 键值对形式
+     * $condition['must_field']: es bool查询must对应字段 ['terms_field'=>['id','pid'],'range_field'=>['ctime','age']] 等
+     * $condition['should_field']: es bool查询should对应字段 ['terms_field'=>['id','pid'],'range_field'=>['ctime','age']] 等
+     * $field_alias:  查询字段别名 例如 ['a'=>['b','c','d']] 查询时候拼接 a.b=* a.c=*
      */
-    public function search($params = [])
+
+    private function _getQueryInfo($data, $condition, $field_alias)
     {
-        $bean = new \EasySwoole\ElasticSearch\RequestBean\Search();
-        $bean->setIndex($this->index);
-        $bean->setType($this->type);
-        $bean->setBody([
-            'query' => [
-                'match' => $params,
-            ],
-        ]);
-        $response = $this->client->client()->search($bean)->getBody();
-        return json_decode($response, true);
+        extract($condition);
+
+        $bool = [];
+
+        if (isset($must_field)) {
+            $must_condition = $this->_getCondition($data, $must_field, $field_alias);
+
+            if (!empty($must_condition)) {
+                $bool['must'] = $must_condition;
+
+            }
+
+        }
+
+        if (isset($should_field)) {
+            $should_condition = $this->_getCondition($data, $should_field, $field_alias);
+
+            if (!empty($should_condition)) {
+                $bool['should'] = $should_condition;
+
+                $bool['minimum_should_match'] = 1;
+
+            }
+
+        }
+
+        return $bool;
+    }
+
+
+    private function _getCondition($data, $condition_field, $field_alias = [])
+    {
+        extract($condition_field);
+
+        $condition = [];
+
+        foreach ($data as $key => &$value) {
+            $middle_key = $key;
+
+            if (!empty($field_alias)) {
+                foreach ($field_alias as $alias_key => $alias_value) {
+                    if (in_array($key, $alias_value)) {
+                        $middle_key = $alias_key . '.' . $key;
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+            if (isset($terms_field) && in_array($key, $terms_field)) {
+                if (is_int($value)) {
+                    $value = (string)$value;
+
+                }
+
+                $condition[] = ['terms' => [$middle_key => explode(',', $value)]];
+
+                continue;
+
+            }
+
+            if (isset($range_field) && in_array($key, $range_field)) {
+                list($from, $to) = $value;
+
+                if ($from == 0) {
+                    $condition[] = ['range' => [$middle_key => ['lte' => $to]]];
+
+                } else {
+                    if ($to == 0) {
+                        $condition[] = ['range' => [$middle_key => ['gte' => $from]]];
+
+                    } else {
+                        $condition[] = ['range' => [$middle_key => ['gte' => $from, 'lte' => $to]]];
+
+                    }
+                }
+
+                continue;
+
+            }
+
+            if (isset($match_field) && in_array($key, $match_field)) {
+                $condition[] = ['match' => [$middle_key => $value]];
+
+            }
+
+        }
+
+        return $condition;
     }
 }
