@@ -26,17 +26,19 @@ class Log
     protected $mainLog;
 
     /**
-     * created_at和updated_at 由系统自动维护，无需添加
-     * @param $data
+     *created_at和updated_at 由系统自动维护，无需添加
+     * @param string $enKey 英文索引
+     * @param string $cnKey 中文索引
+     * @param string $content 日志内容
      * @return \App\Model\BaseModel|array|\Hyperf\Database\Model\Model
-     * $data = [
-     * 'en_key' => 'zq1',
-     * 'cn_key' => '钟琪',
-     * 'content' => '主要内容',
-     * ];
      */
-    public function debug($data)
+    public function debug($content = '',$enKey = 'index', $cnKey = 'cn_index')
     {
+        $data = [
+            'en_key' => $enKey,
+            'cn_key' => $cnKey,
+            'content' => $content,
+        ];
         return $this->mainLog->log($data);
     }
 }

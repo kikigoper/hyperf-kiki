@@ -57,9 +57,9 @@ class MainLog extends BaseModel
             } else {
                 throw new \Exception('数据不能为空');
             }
-            if ($this->existInfo('en_key', $data['en_key'])) {
-                throw new \Exception('英文索引已存在，请更换后重试');
-            }
+//            if ($this->existInfo('en_key', $data['en_key'])) {
+//                throw new \Exception('英文索引已存在，请更换后重试');
+//            }
         } catch (\Throwable $e) {
             return [
                 'errorMessage' => ',文件：' .
