@@ -15,6 +15,7 @@ namespace App\Controller;
 use App\Common\Tool\Ip;
 use App\Common\Tool\Log;
 use App\Manager\HttpClient\GuzzleHttp;
+use App\Model\Order;
 use App\Model\Zq;
 use App\Service\DemoService;
 use Hyperf\Di\Annotation\Inject;
@@ -53,13 +54,60 @@ class IndexController extends AbstractController
 
     public function index(RenderInterface $render)
     {
+//        $re  = new \ReflectionClass(new Order());
+////        $properties = $re ->getProperties();
+////        foreach ($properties as & $property )
+////        {
+////            print_r($re ->getDocComment());
+////        }
+//        $result = [];
+//        $data = $re ->getDocComment();
+
+//        $properties = $re ->getProperty('order_id');
+//        foreach ( $properties as & $property )
+//        {
+//            $result[] =$property ->getName();
+//        }
+//        print_r($properties);
+//        foreach ( $properties as & $property )
+//        {
+//            echo $property ->getName(). "<BR>" ;
+//        }
+//        $data = explode('@property',$data);
+//        foreach ( $data as $k => $v) {
+//            preg_match_all("/[\x{4e00}-\x{9fa5}]+/u",$v,$regs);
+//            $result[] = $regs;
+//        }
+//        print_r($result);
+
+
+//        $data = [];
+//        foreach ( $properties as & $property )
+//        {
+//            $docblock = $property ->getDocComment();
+//            preg_match( '/ type\=([a-z_]*) /' , $property ->getDocComment(), $matches );
+//            $data[$property ->getName()] = $matches [1];
+////            echo $matches [1]. "<BR><BR>" ;
+//        }
+//        return $data;
+//        foreach ( $properties as & $property )
+//        {
+//            if ( $property ->isProtected())
+//            {
+//                $docblock = $property ->getDocComment();
+//                preg_match( '/ type\=([a-z_]*) /' , $property ->getDocComment(), $matches );
+//                print_r($matches). "<BR><BR>" ;
+//
+//            }
+//        }
+
 //        $data = [
 //            'en_key' => 'zq1',
 //            'cn_key' => '钟琪',
 //            'content' => '哈哈哈',
 //        ];
 //        return $this->log->debug($data);
-        return $render->render('index.index', ['name' => 'Hyperf']);
+//        return $render->render('index.index', ['name' => 'Hyperf']);
 
     }
     
