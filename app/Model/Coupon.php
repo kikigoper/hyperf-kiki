@@ -25,6 +25,7 @@ use Hyperf\DbConnection\Model\Model;
  * @property string $valid_start_time 使用开始时间
  * @property string $valid_end_time 使用结束时间
  * @property int $valid_days 自领取之日起有效天数
+ * @property int $get_type 获取方式
  * @property int $status 1生效 2失效 3已结束
  * @property int $create_user
  * @property string $create_time 创建时间
@@ -61,6 +62,7 @@ class Coupon extends BaseModel
         'valid_start_time',
         'valid_end_time',
         'valid_days',
+        'get_type',
         'status',
         'create_user',
         'create_time',
@@ -83,6 +85,7 @@ class Coupon extends BaseModel
         'used_count' => 'integer',
         'valid_type' => 'integer',
         'valid_days' => 'integer',
+        'get_type' => 'integer',
         'status' => 'integer',
         'create_user' => 'integer',
         'update_user' => 'integer',
@@ -98,8 +101,8 @@ class Coupon extends BaseModel
             'type' => '类型',
             'with_special' => '可用于特价商品',
             'with_sn' => '商品id',
-            'with_amount' => '满多少金额',
-            'used_amount' => '用券金额',
+            'with_amount' => '最低消费额',
+            'used_amount' => '面值',
             'quota' => '发券数量',
             'take_count' => '已领数量',
             'used_count' => '已用数量',
@@ -109,6 +112,7 @@ class Coupon extends BaseModel
             'valid_start_time' => '使用开始时间',
             'valid_end_time' => '使用结束时间',
             'valid_days' => '自领取之日起有效天数',
+            'get_type' => '获取方式',
             'status' => '状态',
             'create_user' => '创建人',
             'create_time' => '创建时间',

@@ -46,6 +46,7 @@ class CouponController extends AbstractAdminController
         $grid->column('valid_start_time', Coupon::labels()['valid_start_time']);
         $grid->column('valid_end_time', Coupon::labels()['valid_end_time']);
         $grid->column('valid_days', Coupon::labels()['valid_days']);
+        $grid->column('get_type', Coupon::labels()['get_type']);
         $grid->column('status', Coupon::labels()['status']);
         $grid->column('create_user', Coupon::labels()['create_user']);
         $grid->column('create_time', Coupon::labels()['create_time']);
@@ -82,6 +83,7 @@ class CouponController extends AbstractAdminController
         $form->item('valid_start_time', Coupon::labels()['valid_start_time']);
         $form->item('valid_end_time', Coupon::labels()['valid_end_time']);
         $form->item('valid_days', Coupon::labels()['valid_days']);
+        $form->item('get_type', Coupon::labels()['get_type']);
         $form->item('status', Coupon::labels()['status']);
         $form->item('create_user', Coupon::labels()['create_user']);
         $form->item('create_time', Coupon::labels()['create_time']);
