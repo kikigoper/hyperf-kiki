@@ -15,8 +15,18 @@ use Swoole\Http\Request;
 use Swoole\Server;
 use Swoole\Websocket\Frame;
 use Swoole\WebSocket\Server as WebSocketServer;
+use HPlus\Admin\Controller\AbstractAdminController;
+use HPlus\Route\Annotation\AdminController;
+use HPlus\UI\Layout\Content;
+use HPlus\UI\Layout\Row;
+use HPlus\UI\Components\Widgets\Alert;
+use HPlus\Route\Annotation\GetApi;
+use HPlus\Route\Annotation\PostApi;
 
-class IndexController implements OnMessageInterface, OnOpenInterface, OnCloseInterface
+/**
+ * @AdminController(prefix="/ws-index", tag="", ignore=true))
+ */
+class IndexController extends AbstractAdminController implements OnMessageInterface, OnOpenInterface, OnCloseInterface
 {
     /**
      * 消息返回
@@ -47,5 +57,20 @@ class IndexController implements OnMessageInterface, OnOpenInterface, OnCloseInt
     public function onOpen($server, Request $request): void
     {
         $server->push($request->fd, 'Opened');
+    }
+
+    /**
+     * @GetApi
+     */
+    public function index()
+    {
+        $content = new Content();
+        $content->className('m-10')
+            ->row(function (Row $row) {
+                $row->gutter(10);
+                $row->className('mt-10');
+                $row->column(12, Alert::make('通讯工具开发中，敬请期待...')->showIcon()->closable(false)->type('success'));
+            });
+        return $content;
     }
 }
