@@ -146,7 +146,7 @@ class CensusController extends AbstractAdminController
                                 return [
                                     'title' => [
                                         'visible' => true,
-                                        'text' => '折线图',
+                                        'text' => '商品统计',
                                     ],
                                     'description' => [
                                         'visible' => true,
@@ -166,12 +166,12 @@ class CensusController extends AbstractAdminController
                             for ($year = 2010; $year <= 2020; ++$year) {
                                 $data->push([
                                     'year' => (string)$year,
-                                    'type' => '小红面积',
+                                    'type' => '订单留存',
                                     'value' => rand(100, 1000),
                                 ]);
                                 $data->push([
                                     'year' => (string)$year,
-                                    'type' => '小白面积',
+                                    'type' => '订单成交',
                                     'value' => rand(100, 1000),
                                 ]);
                             }
@@ -181,7 +181,7 @@ class CensusController extends AbstractAdminController
                             return [
                                 'title' => [
                                     'visible' => true,
-                                    'text' => '面积图',
+                                    'text' => '订单统计',
                                 ],
                                 'description' => [
                                     'visible' => true,
@@ -213,7 +213,7 @@ class CensusController extends AbstractAdminController
                             return [
                                 'title' => [
                                     'visible' => true,
-                                    'text' => '阶梯图',
+                                    'text' => '财务管理',
                                 ],
                                 'description' => [
                                     'visible' => true,
@@ -242,7 +242,7 @@ class CensusController extends AbstractAdminController
                             return [
                                 'title' => [
                                     'visible' => true,
-                                    'text' => '条形图',
+                                    'text' => '用户管理',
                                 ],
                                 'description' => [
                                     'visible' => true,
