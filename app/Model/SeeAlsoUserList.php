@@ -39,9 +39,9 @@ class SeeAlsoUserList extends BaseModel
     {
         return [
             'id' => '',
-            'user_id' => '',
+            'user_id' => '用户id',
             'see_id' => '砍价id',
-            'user_name' => '',
+            'user_name' => '用户名',
             'current_price' => '当前价格',
             'residue_num' => '砍价剩余次数',
         ];
