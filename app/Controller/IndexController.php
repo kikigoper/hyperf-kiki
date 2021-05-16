@@ -107,7 +107,7 @@ class IndexController extends AbstractController
 //            'content' => '哈哈哈',
 //        ];
 //        return $this->log->debug($data);
-//        return $render->render('index.index', ['name' => 'Hyperf']);
+        return $render->render('index.index', ['name' => 'Hyperf']);
 
     }
     
