@@ -31,6 +31,9 @@ class UserMessageController extends AbstractAdminController
 		$grid->column('status', UserMessage::labels()['status']);
 		$grid->column('created_at', UserMessage::labels()['created_at']);
 		$grid->column('updated_at', UserMessage::labels()['updated_at']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
 		return $grid;
 	}

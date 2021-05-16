@@ -54,6 +54,9 @@ class GoodsCateController extends AbstractAdminController
         $grid->column('status', GoodsCate::labels()['status'])->customValue(function ($raw, $value) {
             return GoodsCate::$status[$value] ?? '';
         });
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

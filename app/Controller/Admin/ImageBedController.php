@@ -31,6 +31,9 @@ class ImageBedController extends AbstractAdminController
         $grid->column('id', ImageBed::labels()['id']);
         $grid->column('title', ImageBed::labels()['title']);
         $grid->column('image', ImageBed::labels()['image']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

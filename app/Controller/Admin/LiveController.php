@@ -30,10 +30,13 @@ class LiveController extends AbstractAdminController
 		$grid->column('start_time', Live::labels()['start_time']);
 		$grid->column('end_time', Live::labels()['end_time']);
 		$grid->column('created_time', Live::labels()['created_time']);
-		$grid->column('updated_time', Live::labels()['updated_time']);
+//		$grid->column('updated_time', Live::labels()['updated_time']);
 		$grid->column('show_status', Live::labels()['show_status']);
 		$grid->column('status', Live::labels()['status']);
 		$grid->column('sort', Live::labels()['sort']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
 		return $grid;
 	}
@@ -49,7 +52,7 @@ class LiveController extends AbstractAdminController
 		$form->item('start_time', Live::labels()['start_time']);
 		$form->item('end_time', Live::labels()['end_time']);
 		$form->item('created_time', Live::labels()['created_time']);
-		$form->item('updated_time', Live::labels()['updated_time']);
+//		$form->item('updated_time', Live::labels()['updated_time']);
 		$form->item('show_status', Live::labels()['show_status']);
 		$form->item('status', Live::labels()['status']);
 		$form->item('sort', Live::labels()['sort']);

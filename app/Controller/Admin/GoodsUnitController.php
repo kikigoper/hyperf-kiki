@@ -29,6 +29,9 @@ class GoodsUnitController extends AbstractAdminController
 		$grid->className('m-15');
 		$grid->column('id', GoodsUnit::labels()['id']);
 		$grid->column('unit_name', GoodsUnit::labels()['unit_name']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
 		return $grid;
 	}

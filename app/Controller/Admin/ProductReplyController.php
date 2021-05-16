@@ -39,6 +39,9 @@ class ProductReplyController extends AbstractAdminController
         $grid->column('merchant_reply_time', ProductReply::labels()['merchant_reply_time']);
         $grid->column('is_del', ProductReply::labels()['is_del']);
         $grid->column('is_reply', ProductReply::labels()['is_reply']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

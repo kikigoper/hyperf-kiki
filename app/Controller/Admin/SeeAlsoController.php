@@ -37,6 +37,9 @@ class SeeAlsoController extends AbstractAdminController
         $grid->column('status', SeeAlso::labels()['status']);
         $grid->column('end_time', SeeAlso::labels()['end_time']);
         $grid->column('sale_status', SeeAlso::labels()['sale_status']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

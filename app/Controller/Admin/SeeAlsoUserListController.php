@@ -30,6 +30,9 @@ class SeeAlsoUserListController extends AbstractAdminController
 		$grid->column('user_name', SeeAlsoUserList::labels()['user_name']);
 		$grid->column('current_price', SeeAlsoUserList::labels()['current_price']);
 		$grid->column('residue_num', SeeAlsoUserList::labels()['residue_num']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
 		return $grid;
 	}

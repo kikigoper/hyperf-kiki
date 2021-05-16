@@ -39,6 +39,9 @@ class MainLogController extends AbstractAdminController
         $grid->column('updated_at', MainLog::labels()['updated_at'])->width(180);
         $grid->actions(function (Grid\Actions $actions) {
         });
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

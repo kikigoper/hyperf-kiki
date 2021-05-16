@@ -29,6 +29,9 @@ class ExpressController extends AbstractAdminController
         $grid->column('name', Express::labels()['name']);
         $grid->column('sort', Express::labels()['sort']);
         $grid->column('is_show', Express::labels()['is_show']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

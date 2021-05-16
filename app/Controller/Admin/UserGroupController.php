@@ -26,6 +26,9 @@ class UserGroupController extends AbstractAdminController
         $grid->className('m-15');
         $grid->column('id', UserGroup::labels()['id']);
         $grid->column('group_name', UserGroup::labels()['group_name']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

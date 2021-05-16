@@ -49,8 +49,8 @@ class Live extends BaseModel
             'end_time' => '直播结束时间',
             'created_time' => '创建时间',
             'updated_time' => '',
-            'show_status' => '显示状态：1不显示、10显示',
-            'status' => '直播状态：1未开始、10直播中、11已结束',
+            'show_status' => '显示状态',
+            'status' => '直播状态',
             'sort' => '排序',
         ];
     }

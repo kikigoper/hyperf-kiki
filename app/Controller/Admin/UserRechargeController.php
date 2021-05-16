@@ -33,6 +33,9 @@ class UserRechargeController extends AbstractAdminController
         $grid->column('pay_time', UserRecharge::labels()['pay_time']);
         $grid->column('add_time', UserRecharge::labels()['add_time']);
         $grid->column('refund_price', UserRecharge::labels()['refund_price']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

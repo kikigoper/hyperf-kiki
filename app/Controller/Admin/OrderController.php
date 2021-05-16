@@ -75,6 +75,9 @@ class OrderController extends AbstractAdminController
         $grid->column('is_channel', Order::labels()['is_channel']);
         $grid->column('is_remind', Order::labels()['is_remind']);
         $grid->column('is_system_del', Order::labels()['is_system_del']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

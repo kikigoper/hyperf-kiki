@@ -37,6 +37,9 @@ class UserLevelController extends AbstractAdminController
 		$grid->column('is_del', UserLevel::labels()['is_del']);
 		$grid->column('add_time', UserLevel::labels()['add_time']);
 		$grid->column('discount', UserLevel::labels()['discount']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
 		return $grid;
 	}

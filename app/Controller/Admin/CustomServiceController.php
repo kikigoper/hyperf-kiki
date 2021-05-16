@@ -31,6 +31,9 @@ class CustomServiceController extends AbstractAdminController
         $grid->column('status', CustomService::labels()['status']);
         $grid->column('created_at', CustomService::labels()['created_at']);
         $grid->column('updated_at', CustomService::labels()['updated_at']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }

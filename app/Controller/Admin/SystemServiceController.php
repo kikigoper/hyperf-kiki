@@ -27,6 +27,9 @@ class SystemServiceController extends AbstractAdminController
 		$grid->column('id', SystemService::labels()['id']);
 		$grid->column('type', SystemService::labels()['type']);
 		$grid->column('value', SystemService::labels()['value']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
 		return $grid;
 	}

@@ -29,6 +29,9 @@ class CustomScController extends AbstractAdminController
         $grid->column('sort', CustomSc::labels()['sort']);
         $grid->column('created_at', CustomSc::labels()['created_at']);
         $grid->column('updated_at', CustomSc::labels()['updated_at']);
+        $grid->export(function (Grid\Exporters\CsvExporter $export) {
+            $export->filename('信息导出.csv');
+        });
 
         return $grid;
     }
