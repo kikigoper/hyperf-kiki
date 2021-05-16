@@ -49,7 +49,6 @@ class CensusController extends AbstractAdminController
         return $grid;
     }
 
-
     protected function form($isEdit = false)
     {
         $form = new Form(new Census);

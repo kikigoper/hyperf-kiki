@@ -41,7 +41,6 @@ class UserLevelController extends AbstractAdminController
 		return $grid;
 	}
 
-
 	protected function form($isEdit = false)
 	{
 		$form = new Form(new UserLevel);

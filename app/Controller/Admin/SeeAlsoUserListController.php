@@ -34,7 +34,6 @@ class SeeAlsoUserListController extends AbstractAdminController
 		return $grid;
 	}
 
-
 	protected function form($isEdit = false)
 	{
 		$form = new Form(new SeeAlsoUserList);
